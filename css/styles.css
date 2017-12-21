@@ -1,0 +1,590 @@
+/*
+** Common
+*/
+@font-face {
+    font-family: gothamCondensedLight;
+    src: url("./fonts/ufonts.com_gothamcondensed-light-opentype.otf");
+}
+
+@font-face {
+    font-family: gothamCondensedBook;
+    src: url("./fonts/ufonts.com_gothamcondensed-book-opentype.otf");
+}
+
+@font-face {
+    font-family: gothamCondensedMedium;
+    src: url("./fonts/ufonts.com_gothamcondensed-medium-opentype.otf");
+}
+
+@font-face {
+    font-family: gothamCondensedBold;
+    src: url("./fonts/ufonts.com_gothamcondensed-bold-1-opentype.otf");
+}
+
+@font-face {
+    font-family: orator;
+    src: url("./fonts/OratorStd.otf");
+}
+
+body {
+    font-family: gothamCondensedLight;
+}
+
+h4 {
+    font-family: orator;
+}
+
+label {
+    margin-bottom: 0 !important;
+}
+
+
+/* 
+** Login Page
+*/
+.loginWrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    width: 100vw;
+    height: 100vh;
+}
+
+.introArea {
+    display: grid;
+    grid-template-rows: 1fr 10fr;
+}
+
+.loginArea {
+    display: grid;
+    grid-template-rows: 2fr 1fr;
+    background-color: #FECD2F;
+    align-items: center;
+}
+
+.login {
+    padding: 2em;
+}
+
+.loginLabel {
+    text-align: center;
+}
+
+.login > input {
+    border-bottom: 1px solid #333 !important;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: black !important;
+}
+
+::-moz-placeholder { /* New Mozilla */
+    color: black !important;
+}
+
+:-ms-input-placeholder { /* IE 10+ */
+    color: black !important;
+}
+
+:-moz-placeholder { /* Old Mozilla */
+    color: black !important;
+}
+
+.loginButtons{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+}
+
+.loginButton, .resetPasswordButton {
+    background-color: #FECD2F;
+    border-radius: 8px;
+    border: 0px;
+    font-family: gothamCondensedBold;
+    font-size: 18px;
+    padding: 10px 20px;
+    -webkit-box-shadow: 3px 3px 18px 3px rgba(0,0,0,0.25);
+    -moz-box-shadow: 3px 3px 18px 3px rgba(0,0,0,0.25);
+    box-shadow: 3px 3px 18px 3px rgba(0,0,0,0.25);
+}
+
+.fa-3x{
+    font-size: 20px !important;
+}
+
+.loginButton:focus, .resetPasswordButton:focus {
+    background-color: rgb(233, 186, 43);
+}
+
+.logo {
+    display: grid;
+    align-items: center;
+    cursor: pointer;
+}
+
+.introContent {
+    display: grid;
+    align-items: center;
+}
+
+.introLines {
+    padding: 1.5em;
+}
+
+.introLine2 {
+    font-family: gothamCondensedBold;
+    font-size: 5em;
+}
+
+.forgotPasswordLink {
+    color: black !important;
+    font-size: 18px;
+}
+
+#toast-container{
+    top: 4% !important;
+}
+
+input{
+    font-size: 18px !important;
+}
+.fpModalHeader{
+    display: block !important;
+}
+#forgotPasswordModal{
+    max-height: 41% !important;
+}
+.fpModalFooter{
+    display: block !important;
+    background-color: #fff !important;
+    border-top: none !important;
+}
+.fpModalContent{
+    padding: 0 !important;
+}
+
+/* 
+** Dashboard Page
+*/
+.dashboardWrapper {
+    display: grid;
+    grid-template-areas: "topNav topNav"
+    "sideNavArea dashboardMainContent";
+    grid-template-rows: 60px 1fr;
+    grid-template-columns: 1fr 4fr;
+    height: 100vh;
+}
+
+.topNav {
+    grid-area: topNav;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: white !important;
+    align-items: center;
+}
+
+.logoutBtn{
+    font-family: gothamCondensedBook;
+    font-size: 1.5em;
+    color: black;
+    justify-self: end;
+    margin-right: 1em;
+    cursor: pointer;
+}
+
+.sideNavArea {
+    grid-area: sideNavArea;
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+    height: calc(100vh - 60px);
+    height: -webkit-calc(100vh - 60px);
+}
+
+.sideNav {
+    border-right: 1px solid rgb(197, 197, 197);
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+.navItem {
+    font-family: orator;
+    font-size: 1.5em;
+    color: #888 !important;
+    text-align: center;
+    width: 100%;
+}
+
+.selected {
+    color: black !important;
+    border-right: 6px solid #FECD2F;
+    font-weight: bold;
+}
+
+.createSVCBtn {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+.dashboardMainContent { 
+    grid-area: dashboardMainContent;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 3%;
+    grid-gap: 20px;
+    /*grid-auto-rows: 23em;
+    ;*/
+}
+
+.dashboardMainContent > .garageCard {
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+    display: grid;
+    grid-template-rows: 2fr 2fr 50px;
+    justify-items: center;
+}
+.garageCard img {
+    width: 100%;
+}
+
+.cardText {
+    margin: 0.5em;
+    width: 95%;
+}
+
+.cardText > .gridRow1 {
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+
+.currentStatus{
+    text-transform: capitalize;
+}
+
+.regNo{
+    font-family: orator;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.cardText > .gridRow2, .gridRow3, .gridRow4, .gridRow5 {
+    display: grid;
+    grid-template-columns: 4fr 3fr 1fr;
+    align-items: center;
+    margin: 0.5em;
+}
+
+.cardText > .gridRow2, .gridRow3, .gridRow4, .gridRow5 > div {
+    font-family: gothamCondensedBook;
+}
+
+.cardText > div > label {
+    font-family: gothamCondensedLight;
+    font-size: 0.8em;
+}
+
+.cardText > div > i {
+    font-size: 12px;
+    justify-self: end;
+    cursor: pointer;
+}
+
+.zuppNowBtn, .buyBtn {
+    width: 100%;
+    background-color: #FECD2F;
+    border: 0 !important;
+    border-radius: 0 !important;
+    font-family: gothamCondensedBold;
+    font-size: 1.2em;
+}
+
+.modal-title {
+    font-family: gothamCondensedBook;
+    font-size: 1.4em;
+}
+
+.modal-footer > button {
+    font-family: gothamCondensedBold;
+    color: black;
+}
+
+.modal-footer > .btn-primary {
+    background-color: #FECD2F;
+    border: 0 !important;
+}
+
+.nav-link{
+    color: #999 !important;
+    font-size: 22px !important;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+    color: black !important;
+    font-weight: 600;
+    background-color: transparent;
+}
+
+.dateRange{
+    display: flex;
+}
+
+.fromDate, .toDate{
+    margin-right: 50px;
+}
+
+.clearRow{
+    visibility: hidden;
+}
+
+/* 
+** Report Page
+*/
+.reportWrapper{
+    display: grid;
+    grid-template-areas: "topNav topNav"
+    "sideNavArea reportMainContent";
+    grid-template-rows: 60px 1fr;
+    grid-template-columns: 1fr 4fr;
+}
+.reportMainContent{
+    grid-area: reportMainContent;
+    display: grid;
+    margin-left: 20px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 60px;
+    grid-template-areas:
+    "tabsDiv"
+    "tab-content"; 
+}
+
+.reportTabs{
+    padding: .5rem 4rem 0 0 !important;
+}
+
+.goButton, .goButtonReport{
+    background-color: #fff !important;
+    border-radius: 0.5em !important;
+    border: 1px solid #FECD2F !important;
+    font-family: gothamCondensedBold;
+    font-size: 14px !important;
+    padding: 0 40px !important;
+    color: black !important;
+}
+.goButtonReport{
+    padding: 0 40px !important;
+}
+.dateRange, .regNoDiv{
+    margin: 20px 0;
+}
+
+.table td, .table th{
+    border-top: none;
+}
+.table thead th{
+    border-bottom: 1px solid #FECD2F;
+}
+.dateAddon{
+    display: none;
+}
+#fromDate, #toDate{
+    border: none;
+    font-size: 24px !important;
+    font-weight: bold;
+    border-bottom: 1px solid #999 !important;
+    width: 70%;
+}
+.input-group .form-control{
+    width: 100%;
+    border: none;
+    text-align: left;
+    padding-left: 0;
+    font-size: 24px !important;
+    font-weight: bold;
+    color: #212529;
+}
+select{
+    display: block !important;
+    width: 30% !important;
+    font-size: 22px !important;
+    border-bottom: 1px solid #999 !important;
+    padding: 0 !important;
+    letter-spacing: 1.5px !important;
+    font-weight: bold !important;
+}
+/* 
+** SVC Page
+*/
+.svcWrapper{
+    display: grid;
+    grid-template-areas: "topNav topNav"
+    "sideNavArea svcMainContent";
+    grid-template-rows: 60px 1fr;
+    grid-template-columns: 1fr 4fr;
+}
+.svcMainContent{
+    grid-area: svcMainContent;
+    display: grid;
+    margin-left: 20px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 60px;
+    grid-template-areas:
+    "svcDiv"
+}
+.searchBar{
+    display: flex;
+    width: 40%;
+}
+.searchValue{
+    margin-right: 20px !important;
+}
+/* 
+** Create SVC Page
+*/
+.createClick{
+    cursor: pointer;
+}
+.createLabel{
+    width: 40%;
+}
+.planNo{
+    display: flex;
+}
+.planText{
+    margin-top: -52px;
+    margin-left: 32px;
+    font-size: 20px;
+    font-weight: 600;
+}
+.createForm{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+        "personalDetails . addressDetails";
+}
+.personalDetails, .addressDetails{
+    margin: 20px 80px 20px 0;
+}
+input[type=text]:focus{
+    border-bottom: 1px solid #999 !important;
+}
+.input-field label:focus{
+    color: #999 !important;
+}
+.attachBtn{
+    float: right !important;
+    background-color: #fff !important;
+    border: 1px solid #FECD2F !important;
+    color: black !important;
+    text-transform: none !important;
+    border-radius: 8px !important;
+    height: 2rem !important;
+    line-height: 2rem !important;
+}
+.attachLabel{
+    font-size: 18px;
+}
+.saveBtn{
+    background-color: #FECD2F !important;
+    color: black !important;
+    text-transform: none !important;
+    font-weight: 600;
+    float: right;
+    border-radius: 8px !important;
+    margin-top: 12px;
+    margin-right: -5px;
+}
+.saveImg{
+    width: 26%;
+    float: right;
+}
+
+.printText{
+    margin-bottom: 15px;
+    font-size: 22px;
+    color: #999;
+}
+.printValue{
+    font-size: 30px;
+    margin-bottom: 25px;
+}
+.printLogo{
+    margin-bottom: 20px;
+}
+.printHeader{
+    margin: 20px 0;
+    text-align: center;
+}
+.printHeading{ 
+    font-weight: bold !important;
+}
+.mainDivPrint{
+    display: flex;
+}
+.personalDetailsPrint,.addressDetailsPrint, .planDetailsDiv{
+    width: 40%;
+    margin-left: 10%;
+}
+
+/* 
+** Select Plan Page
+*/
+.plansWrapper{
+    display: grid;
+    grid-template-areas: "topNav topNav"
+    "sideNavArea plansMainContent";
+    grid-template-rows: 60px 1fr;
+    grid-template-columns: 1fr 4fr;
+}
+.plansMainContent{
+    grid-area: plansMainContent;
+    display: grid;
+    margin-left: 20px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 60px;
+    grid-template-areas:
+    "plansDiv"
+}
+.plansDiv{
+    display: flex;
+}
+.planCard{
+    margin-right: 10px;
+    width: 20%;
+    height: fit-content;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+}
+.planLogo{
+    text-align: center;
+}
+.zuppLogo{
+    width: 30%;
+    margin-top: 10px;
+}
+.planCircle{
+    margin-top: -20px;
+    width: 24%;
+}
+.selectPlanText{
+    margin-left: 0 !important;
+    margin-top: -42px;
+    font-size: 18px;
+}
+.planNumberCircle{
+    text-align: center;
+}
+.planId{
+    font-weight: bold;
+    font-size: 18px;
+}
+.svcClick{
+    cursor: pointer;
+    text-decoration: underline !important;
+}
+.svcDetailsDiv{
+    display: -webkit-box;
+}
+.svcDetailsDiv > .personalDetailsPrint > .printText, .svcDetailsDiv > .addressDetailsPrint > .printText{
+    margin-bottom: 0;
+}
