@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vehicles</title>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <link type="text/css" rel="stylesheet" href="css/styles.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+        <!-- Import materialize.css -->
+        <link type="text/css" rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css" media="screen,projection"/>
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+        <div class="svcWrapper">
+            <div class="topNav">
+                <div class="logo">
+                    <img src="img/Zupp web_Logo.png" alt="ZUPP" />
+                </div>
+                <div class="logoutBtn">LOGOUT</div>
+            </div>
+
+            <div class="sideNavArea">
+                <div></div>
+                <div class="sideNav">
+                    <a class="navItem" id="garage" href="vendors">Vendors</a>
+                    <a class="navItem selected" id="reports" href="vehicles">Vehicles</a>
+                    <a class="navItem" id="svc" href="svc">SVC Plans</a>
+                    <a class="navItem" id="svc" href="reports">Reports</a>
+                </div>
+                <div class="createSVCBtn">
+                    <img src="img/Zupp web_FAB.png" class="createClick" alt="Create Vendor" />
+                    <p class="createText">Create Vendor</p>
+                </div>
+            </div>
+
+            <div class="svcMainContent">
+                <div class="createSVCDiv">
+
+                    <form>
+                        <div class="createForm" id="createForm">
+                            <div class="personalDetails">
+                                <div class="input-field">
+                                    <input placeholder="Brand" id="brand" type="text" class="brand">
+                                    <label for="brand">Brand*</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <input placeholder="Model" id="model" type="text" class="model">
+                                    <label for="model">Model*</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <input placeholder="Registration Number" id="regNumber" type="text" class="regNumber">
+                                    <label for="regNumber">Registration Number *</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <input placeholder="Registration Expiry Date" id="registrationExpiry" type="text" class="datepicker">
+                                    <label for="registrationExpiry">Registration Expiry Date *</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <input placeholder="Current Distance Reading" id="currentDistanceReading" type="text" class="currentDistanceReading">
+                                    <label for="currentDistanceReading">Current Distance Reading*</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <input placeholder="Last Service Distance Reading" id="lastServiceDistanceReading" type="text" class="lastServiceDistanceReading">
+                                    <label for="lastServiceDistanceReading">Last Service Distance Reading*</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <input placeholder="Last Service Date" id="lastServiceDate" type="text" class="datepicker">
+                                    <label for="lastServiceDate">Last Service Date*</label>
+                                </div>
+
+                            </div>
+
+                            <div class="addressDetails">
+                                <div class="input-field">
+                                    <input placeholder="Emission Number" id="emissionNumber" type="text" class="emissionNumber">
+                                    <label for="emissionNumber">Emission Number*</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <input placeholder="Emission Expiry Date" id="emissionExpiry" type="text" class="datepicker">
+                                    <label for="emissionExpiry">Emission Expiry Date*</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <input placeholder="Insurance Number" id="insuranceNumber" type="text" class="insuranceNumber">
+                                    <label for="insuranceNumber">Insurance Number *</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <input placeholder="Insurance Expiry Date" id="insuranceExpiry" type="text" class="datepicker">
+                                    <label for="insuranceExpiry">Insurance Expiry Date *</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <input placeholder="Tracking Device IMEI Number" id="trackingDeviceIMEI" type="text" class="trackingDeviceIMEI">
+                                    <label for="trackingDeviceIMEI">Tracking Device IMEI Number*</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <input placeholder="Permit Number" id="permitNumber" type="text" class="permitNumber">
+                                    <label for="permitNumber">Permit Number*</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <input placeholder="Permit Expiry Date" id="permitExpiry" type="text" class="datepicker">
+                                    <label for="permitExpiry">Permit Expiry Date</label>
+                                </div>
+                                
+                                <div>
+                                    <img class="saveImg" src="img/Zupp web_Save and print.png"/>
+                                    <button class="btn saveBtn saveVehicleBtn">Save</button>
+                                </span>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <!--Import jQuery before materialize.js-->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    </body>
+</html>

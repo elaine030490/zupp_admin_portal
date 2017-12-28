@@ -128,6 +128,7 @@ label {
 
 .introLines {
     padding: 1.5em;
+    text-align: center;
 }
 
 .introLine2 {
@@ -202,7 +203,7 @@ input{
 .sideNav {
     border-right: 1px solid rgb(197, 197, 197);
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
     align-items: center;
     justify-items: center;
 }
@@ -337,6 +338,10 @@ input{
     visibility: hidden;
 }
 
+.createText{
+    margin-top: -20px;
+}
+
 /* 
 ** Report Page
 */
@@ -405,12 +410,16 @@ input{
 }
 select{
     display: block !important;
-    width: 30% !important;
-    font-size: 22px !important;
-    border-bottom: 1px solid #999 !important;
-    padding: 0 !important;
-    letter-spacing: 1.5px !important;
+    font-size: 20px !important;
     font-weight: bold !important;
+}
+
+#assignVendorModal{
+    height: 35%;
+    width: 40%;
+}
+.modal-content{
+    padding: 10px !important;
 }
 /* 
 ** SVC Page
@@ -446,6 +455,8 @@ select{
 }
 .createLabel{
     width: 40%;
+    font-size: 20px;
+    font-weight: bold;
 }
 .planNo{
     display: flex;
@@ -484,19 +495,28 @@ input[type=text]:focus{
 .attachLabel{
     font-size: 18px;
 }
-.saveBtn{
+.saveBtn, .addVehicleBtn, .saveVehicleBtn, .addVendorBtn, .assignVendorBtn, .createPlanBtn, .savePlanBtn{
     background-color: #FECD2F !important;
     color: black !important;
     text-transform: none !important;
     font-weight: 600;
-    float: right;
     border-radius: 8px !important;
     margin-top: 12px;
     margin-right: -5px;
+    float: right;
+}
+.addVehicleBtn, .addVendorBtn, .assignVendorBtn, .createPlanBtn{
+    float: none;
+}
+.addVehicleBtn{
+    margin-bottom: 20px;
 }
 .saveImg{
-    width: 26%;
+    width: 27%;
     float: right;
+}
+.addVendorBtn{
+    margin-top: -5px;
 }
 
 .printText{
