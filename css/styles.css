@@ -216,6 +216,16 @@ input{
     width: 100%;
 }
 
+#svcReport, #rentalReport{
+    width: 50%;
+}
+.tabs .tab a{
+    font-size: 22px !important;
+}
+.collection-item, .collection-item .badge{
+    font-size: 18px;
+}
+
 .selected {
     color: black !important;
     border-right: 6px solid #FECD2F;

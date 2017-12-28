@@ -153,6 +153,55 @@ $.ajax({
     }
 });
 
+//get svc reports
+$.ajax({
+	url: baseUrl + 'report/svc',
+	type: "GET",
+    contentType: "application/json",
+    crossDomain: true,
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+    },
+    success: function(result){
+    	if(result.status == 'success'){
+    		if(result.data.length == 0){
+    			Materialize.toast('No plans found!', 4000);
+    		}
+    		else{
+    			$('#rentalReport').empty();
+    			$('#svcReport').append('<div class="collection"><a class="collection-item"><span class="badge revenueGenerated">Rs. '+result.data.revenueGenerated+'/-</span>Revenue Generated</a><a class="collection-item"><span class="badge svcClaims">'+result.data.svcClaims+'</span>SVC Claims</a><a class="collection-item"><span class="badge totalActiveSVC">'+result.data.totalActiveSVC+'</span>Total Active SVC</a><a class="collection-item"><span class="badge totalExpiredSVC">'+result.data.totalExpiredSVC+'</span>Total Expired SVC</a><a class="collection-item"><span class="badge totalSVC">'+result.data.totalSVC+'</span>Total SVC</a></div>')
+    		}
+    	}
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+    	console.log('error');
+    }
+});
+
+//get rental reports
+$.ajax({
+	url: baseUrl + 'report/booking',
+	type: "GET",
+    contentType: "application/json",
+    crossDomain: true,
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+    },
+    success: function(result){
+    	if(result.status == 'success'){
+    		if(result.data.length == 0){
+    			Materialize.toast('No plans found!', 4000);
+    		}
+    		else{
+    			$('#rentalReport').append('<div class="collection"><a class="collection-item"><span class="badge totalBookings">Rs. '+result.data.totalBookings+'/-</span>Total Bookings</a><a class="collection-item"><span class="badge revenueGeneratedWithoutTax">Rs. '+result.data.revenueGeneratedWithoutTax+' /-</span>Revenue Generated without Tax</a><a class="collection-item"><span class="badge revenueGeneratedWithTax">Rs. '+result.data.revenueGeneratedWithTax+' /-</span>Revenue Generated with Tax</a></div>');
+    		}
+    	}
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+    	console.log('error');
+    }
+});
+
 //get svc plan list
 /*$.ajax({
 	url: baseUrl + 'plan?page=1',
@@ -189,7 +238,7 @@ $('.createPlanBtn').click(function(){
 //on save plan click
 $('.savePlanBtn').click(function(e){
 	e.preventDefault();
-	
+
 	var planName = $('#name').val();
 	var cost = $('#cost').val();
 	var validityDuration = $('#validityDuration').val();
