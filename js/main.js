@@ -6,7 +6,7 @@ var user = '';
 //admin login
 $(".loginButton").click(function (e) { 
     e.preventDefault();
-    window.location.href = './dashboard';
+    window.location.href = './dashboard.html';
 
     /*$(this)[0].innerHTML = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span>';
     $(this).attr('disabled', 'disabled');
@@ -106,7 +106,7 @@ $('.assignVendorBtn').on('click', function(){
 
 	$.ajax({
 		url: baseUrl + 'assignVehicle',
-		type: "POST",
+		type: "PUT",
 	    contentType: "application/json",
 	    crossDomain: true,
 	    data: JSON.stringify(data),
@@ -232,7 +232,7 @@ $.ajax({
 
 //on create svc plan click
 $('.createPlanBtn').click(function(){
-	location.href = 'createPlan';
+	location.href = 'createPlan.html';
 });
 
 //on save plan click
@@ -268,7 +268,7 @@ $('.savePlanBtn').click(function(e){
 
 //on create vendor click
 $('.createClick').click(function(){
-	location.href = 'createVendor';
+	location.href = 'createVendor.html';
 });
 
 //on save vendor click
@@ -310,7 +310,7 @@ $('.saveVendorBtn').click(function(e){
 
 //on add vehicle click
 $('.addVehicleBtn').click(function(){
-	location.href = 'addVehicle';
+	location.href = 'addVehicle.html';
 });
 
 //datepicker options
