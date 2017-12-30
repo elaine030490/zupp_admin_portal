@@ -6,7 +6,7 @@ var user = '';
 //admin login
 $(".loginButton").click(function (e) { 
     e.preventDefault();
-    window.location.href = './dashboard.html';
+    window.location.href = './vendors.html';
 
     /*$(this)[0].innerHTML = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span>';
     $(this).attr('disabled', 'disabled');
