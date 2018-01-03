@@ -226,6 +226,26 @@ input{
     font-size: 18px;
 }
 
+.editBtn, .deleteBtn{
+    border: 1px solid #FECD2F !important;
+}
+.editBtn:hover, .editBtn:focus, .deleteBtn:hover, .deleteBtn:focus{
+    background-color: #fff !important;
+}
+.vendorClick, .vehicleSelect{
+    cursor: pointer;
+    text-decoration: underline;
+}
+.vehicleTitle{
+    color: #888;
+}
+.vehicleValue, .vendorValue{
+    margin-top: -10px;
+}
+#image img{
+    width: 100%;
+}
+
 .selected {
     color: black !important;
     border-right: 6px solid #FECD2F;
@@ -482,6 +502,12 @@ select{
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
         "personalDetails . addressDetails";
+}
+.vehicleDetailsForm{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+        "imageDiv vehicleDetailsDiv vehicleDetailsMoreDiv";
 }
 .personalDetails, .addressDetails{
     margin: 20px 80px 20px 0;

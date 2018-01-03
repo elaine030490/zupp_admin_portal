@@ -8,7 +8,7 @@ $(".loginButton").click(function (e) {
     e.preventDefault();
     window.location.href = './vendors.html';
 
-    /*$(this)[0].innerHTML = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span>';
+    $(this)[0].innerHTML = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span>';
     $(this).attr('disabled', 'disabled');
 
     var email = $('.dealerId').val();
@@ -23,7 +23,7 @@ $(".loginButton").click(function (e) {
     	var data = {"email":email, "password":password};
 
 	    $.ajax({
-	    	url: baseUrl + 'login/v/',
+	    	url: baseUrl + 'login',
 	    	type: "POST",
 	        contentType: "application/json",
 	        crossDomain: true,
@@ -32,7 +32,7 @@ $(".loginButton").click(function (e) {
 	        	if(result.status == 'success'){
 	        		token = result.data;
 	        		localStorage.setItem('token', token);
-	        		window.location.href = './dashboard';
+	        		window.location.href = './vendors.html';
 	        	}
 	        },
 	        error: function (jqXHR, textStatus, errorThrown) {
@@ -43,7 +43,13 @@ $(".loginButton").click(function (e) {
 	        	}
 	        }
 	    });  
-    } */
+    } 
+});
+
+//logout
+$('.logoutBtn').click(function(){
+	localStorage.setItem('token', '');
+	location.href = 'index.html';
 });
 
 //format date
@@ -79,8 +85,10 @@ $.ajax({
     					var addVendorBtn = '<a id='+val.id+' class="btn waves-effect waves-light addVendorBtn modal-trigger">Assign Vendor</a>';
     				else
     					var addVendorBtn = '';
+    				var editBtn = '<a id='+val.id+' class="btn btn-flat editBtn">Edit</a>';
+    				var delBtn = '<a id='+val.id+' class="btn btn-flat deleteBtn">Delete</a>';
 
-    				$('.tableBody').append('<tr><td>'+val.registrationNumber+'</td><td>'+formatNewDate(val.registrationExpiry)+'</td><td>'+val.vendorId+'</td><td>'+val.status+'</td><td>'+val.lastServiceDistanceReading+'</td><td>'+formatNewDate(val.insuranceExpiry)+'</td><td>'+formatNewDate(val.lastServiceDate)+'</td><td class='+val.id+'>Edit</td><td id='+val.id+'>Delete</td><td>'+addVendorBtn+'</td></tr>');
+    				$('.tableBody').append('<tr><td id='+val.id+' class="vehicleSelect">'+val.registrationNumber+'</td><td>'+val.brand+'</td><td>'+val.model+'</td><td>'+val.vendorId+'</td><td>'+val.status+'</td><td class='+val.id+'>'+editBtn+'</td><td id='+val.id+'>'+delBtn+'</td><td>'+addVendorBtn+'</td></tr>');
     			});
     		}
     	}
@@ -90,12 +98,112 @@ $.ajax({
     }
 });
 
+//on vehicle reg no click
+$('.tableBody').on('click', '.vehicleSelect', function(){
+	var vehicleId = $(this).attr('id');
+	localStorage.setItem('vehicleId', vehicleId);
+	location.href = 'vehicleDetails.html';
+});
+
 //assign vendor button click
 $('.tableBody').on('click', '.addVendorBtn', function(){
     var vehicleId = $(this).attr('id');
     localStorage.setItem('vehicleId', vehicleId);
     $('#assignVendorModal').modal('open');
 });
+
+//on vehicle delete click
+$('.tableBody').on('click', '.deleteBtn', function(){
+	var vendorId = $(this).attr('id');
+
+	$.ajax({
+		url: baseUrl + 'vehicle/'+vendorId,
+		type: "DELETE",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    /*beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },*/
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		Materialize.toast('Vehicle deactivated!', 4000);
+	    		location.reload(); 	
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
+
+//on vehicle edit click
+$('.tableBody').on('click', '.editBtn', function(){
+	var vehicleId = $(this).attr('id');
+	localStorage.setItem('vehicleId', vehicleId);
+	location.href = 'editVehicle.html';
+});
+
+//get details of selected vehicle
+var vehicleId = localStorage.getItem('vehicleId');
+//localStorage.setItem('vehicleId', '');
+if(vehicleId == ''){
+}
+else if(vehicleId !== '' || vehicleId !== null){
+	$.ajax({
+		url: baseUrl + 'vehicle/'+vehicleId,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    /*beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },*/
+	    success: function(result){
+	    	var currentLocation = window.location.pathname.split('/')[2];
+	    	
+	    	if(currentLocation == 'vehicleDetails'){
+	    		if(result.status == 'success'){
+		    		$('#image').append('<img src='+result.data.image+'>');
+		    		$('#status').append('<h5 class="vehicleValue">'+result.data.status+'</h5>');
+	    			$('#brand').append('<h5 class="vehicleValue">'+result.data.brand+'</h5>');
+					$('#model').append('<h5 class="vehicleValue">'+result.data.model+'</h5>');
+					$('#regNumber').append('<h5 class="vehicleValue">'+result.data.registrationNumber+'</h5>');
+					$('#regExpiry').append('<h5 class="vehicleValue">'+formatNewDate(result.data.registrationExpiry)+'</h5>');
+					$('#currentDist').append('<h5 class="vehicleValue">'+result.data.currentDist+'</h5>');
+					$('#lastServiceDist').append('<h5 class="vehicleValue">'+result.data.lastServiceDistanceReading+'</h5>');
+					$('#lastServiceDate').append('<h5 class="vehicleValue">'+formatNewDate(result.data.lastServiceDate)+'</h5>');
+					$('#emissionNumber').append('<h5 class="vehicleValue">'+result.data.emissionNumber+'</h5>');
+					$('#emissionExpiryDate').append('<h5 class="vehicleValue">'+formatNewDate(result.data.emissionExpiry)+'</h5>');
+					$('#insuranceNumber').append('<h5 class="vehicleValue">'+result.data.insuranceNumber+'</h5>');
+					$('#insuranceExpiryDate').append('<h5 class="vehicleValue">'+formatNewDate(result.data.insuranceExpiry)+'</h5>');
+					$('#trackingNumber').append('<h5 class="vehicleValue">'+result.data.trackingDeviceIMEI+'</h5>');
+					$('#permitNumber').append('<h5 class="vehicleValue">'+result.data.permitNumber+'</h5>');
+					$('#permitExpiryDate').append('<h5 class="vehicleValue">'+formatNewDate(result.data.permitExpiry)+'</h5>');
+		    	}
+	    	}
+	    	else if(currentLocation == 'editVehicle'){
+	    		if(result.status == 'success'){
+	    			$('#brand').val(result.data.brand);
+	    			$('#model').val(result.data.model);
+					$('#regNumber').val(result.data.registrationNumber);
+					$('#registrationExpiry').val(formatNewDate(result.data.registrationExpiry));
+					$('#currentDistanceReading').val(result.data.currentDistanceReading);
+					$('#lastServiceDistanceReading').val(result.data.lastServiceDistanceReading);
+					$('#lastServiceDate').val(formatNewDate(result.data.lastServiceDate));
+					$('#emissionNumber').val(result.data.emissionNumber);
+					$('#emissionExpiry').val(formatNewDate(result.data.emissionExpiry));
+					$('#insuranceNumber').val(result.data.insuranceNumber);
+					$('#insuranceExpiry').val(formatNewDate(result.data.insuranceExpiry));
+					$('#trackingDeviceIMEI').val(result.data.trackingDeviceIMEI);
+					$('#permitNumber').val(result.data.permitNumber);
+					$('#permitExpiry').val(formatNewDate(result.data.permitExpiry));
+	    		}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+}
 
 //asign vendor to vehicle save
 $('.assignVendorBtn').on('click', function(){
@@ -116,6 +224,7 @@ $('.assignVendorBtn').on('click', function(){
 	    success: function(result){
 	    	if(result.status == 'success'){
     			Materialize.toast('Vendor assigned successfully!', 4000);
+    			location.reload();
 	    	}
 	    },
 	    error: function (jqXHR, textStatus, errorThrown) {
@@ -142,8 +251,10 @@ $.ajax({
     			$('.vendorListBody').empty();
 
     			$.each(result.data, function(key, val){
-    				$('.vendorListBody').append('<tr><td>'+val.name+'</td><td>'+val.address+'</td><td>'+val.dealershipType+'</td><td>'+val.email+'</td><td>'+val.phoneNumber+'</td><td class='+val.id+'>Edit</td><td id='+val.id+'>Delete</td></tr>');
-    				$('.vendorSelect').append('<option value='+val.id+'>'+val.name+'</option>')
+    				var editBtn = '<a id='+val.id+' class="btn btn-flat editBtn">Edit</a>';
+    				var delBtn = '<a id='+val.id+' class="btn btn-flat deleteBtn">Delete</a>';
+    				$('.vendorListBody').append('<tr><td class="vendorClick" id='+val.id+'>'+val.token+'</td><td>'+val.name+'</td><td>'+val.dealershipType+'</td><td>'+val.email+'</td><td>'+val.phoneNumber+'</td><td class='+val.id+'>'+editBtn+'</td><td id='+val.id+'>'+delBtn+'</td></tr>');
+    				$('.vendorSelect').append('<option value='+val.id+'>'+val.name+'</option>');
     			});
     		}
     	}
@@ -152,6 +263,114 @@ $.ajax({
     	console.log('error');
     }
 });
+
+//on vendor token click
+$('.vendorListBody').on('click', '.vendorClick', function(){
+	var vendorId = $(this).attr('id');
+	localStorage.setItem('vendorId', vendorId);
+	location.href = 'vendorDetails.html';
+});
+
+//on vendor edit click
+$('.vendorListBody').on('click', '.editBtn', function(){
+	var vendorId = $(this).attr('id');
+	localStorage.setItem('vendorId', vendorId);
+	location.href = 'editVendor.html';
+});
+
+//on vendor delete click
+$('.vendorListBody').on('click', '.deleteBtn', function(){
+	var vendorId = $(this).attr('id');
+
+	$.ajax({
+		url: baseUrl + 'vendor/'+vendorId,
+		type: "DELETE",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    /*beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },*/
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		Materialize.toast('Vendor deactivated!', 4000);
+	    		location.reload(); 	
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
+
+//get vehicles of single vendor
+var vendorId = localStorage.getItem('vendorId');
+//localStorage.setItem('vendorId', '');
+if(vendorId == ''){
+}
+else if(vendorId !== '' || vendorId !== null){
+	//get details of selected vendor
+	$.ajax({
+		url: baseUrl + 'vendor/'+vendorId,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		var currentLocation = window.location.pathname.split('/')[2];
+	    		if(currentLocation == 'vendorDetails'){
+	    			$('#name').append('<h5 class="vendorValue">'+result.data.name+'</h5>');
+					$('#email').append('<h5 class="vendorValue">'+result.data.email+'</h5>');
+					$('#phone').append('<h5 class="vendorValue">'+result.data.phoneNumber+'</h5>');
+					$('#address').append('<h5 class="vendorValue">'+result.data.address+'</h5>');
+					$('#dealer').append('<h5 class="vendorValue">'+result.data.dealershipType+'</h5>');
+
+					$.each(result.data.contactPersons, function(key, val){
+						$('.contactPersonDiv').append('<div class="input-field"><p class="vehicleTitle">Name</p><div id="contactName"><h5 class="vendorValue">'+val.name+'</h5></div></div><div class="input-field"><p class="vehicleTitle">Phone Number</p><div id="contactPhone"><h5 class="vendorValue">'+val.phoneNumber+'</h5></div></div>')
+					});
+					//get vehicles of selected vendor
+					$.ajax({
+						url: baseUrl + 'vehicles/v/'+vendorId,
+						type: "GET",
+					    contentType: "application/json",
+					    crossDomain: true,
+					    beforeSend: function (xhr) {
+					      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+					    },
+					    success: function(result){
+					    	if(result.status == 'success'){
+					    		if(result.data.length == 0){
+					    			Materialize.toast('No vehicles found!', 4000);
+					    		}
+					    		else{
+					    			
+					    		}
+					    	}
+					    },
+					    error: function (jqXHR, textStatus, errorThrown) {
+					    	console.log('error');
+					    }
+					});
+	    		}
+	    		else if(currentLocation == 'editVendor'){
+	    			$('#vendorName').val(result.data.name);
+					$('#email').val(result.data.email);
+					$('#countryCode').val(result.data.countryCode);
+					$('#mobileNumber').val(result.data.phoneNumber);
+					$('#address').val(result.data.address);
+					$('#dealershipType').val(result.data.dealershipType);
+					$('#contactName').val(result.data.contactPersons[0].name);
+					$('#phoneNumber').val(result.data.contactPersons[0].phoneNumber);					
+	    		}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+}
 
 //get svc reports
 $.ajax({
@@ -165,7 +384,7 @@ $.ajax({
     success: function(result){
     	if(result.status == 'success'){
     		if(result.data.length == 0){
-    			Materialize.toast('No plans found!', 4000);
+    			Materialize.toast('No report found!', 4000);
     		}
     		else{
     			$('#rentalReport').empty();
@@ -190,7 +409,7 @@ $.ajax({
     success: function(result){
     	if(result.status == 'success'){
     		if(result.data.length == 0){
-    			Materialize.toast('No plans found!', 4000);
+    			Materialize.toast('No report found!', 4000);
     		}
     		else{
     			$('#rentalReport').append('<div class="collection"><a class="collection-item"><span class="badge totalBookings">Rs. '+result.data.totalBookings+'/-</span>Total Bookings</a><a class="collection-item"><span class="badge revenueGeneratedWithoutTax">Rs. '+result.data.revenueGeneratedWithoutTax+' /-</span>Revenue Generated without Tax</a><a class="collection-item"><span class="badge revenueGeneratedWithTax">Rs. '+result.data.revenueGeneratedWithTax+' /-</span>Revenue Generated with Tax</a></div>');
@@ -203,8 +422,8 @@ $.ajax({
 });
 
 //get svc plan list
-/*$.ajax({
-	url: baseUrl + 'plan?page=1',
+$.ajax({
+	url: baseUrl + 'plan',
 	type: "GET",
     contentType: "application/json",
     crossDomain: true,
@@ -220,7 +439,7 @@ $.ajax({
     			$('.planListBody').empty();
 
     			$.each(result.data, function(key, val){
-    				$('.planListBody').append('<tr><td>'+val.name+'</td><td>'+val.address+'</td><td>'+val.dealershipType+'</td><td>'+val.email+'</td><td>'+val.phoneNumber+'</td><td class='+val.id+'>Edit</td><td id='+val.id+'>Delete</td></tr>');
+    				$('.planListBody').append('<tr><td>'+val.name+'</td><td>'+val.cost+'</td><td>'+val.validityDuration+'</td><td>'+val.noOfClaims+'</td><td class='+val.id+'>Edit</td><td id='+val.id+'>Delete</td></tr>');
     			});
     		}
     	}
@@ -228,7 +447,7 @@ $.ajax({
     error: function (jqXHR, textStatus, errorThrown) {
     	console.log('error');
     }
-});*/
+});
 
 //on create svc plan click
 $('.createPlanBtn').click(function(){
@@ -258,6 +477,9 @@ $('.savePlanBtn').click(function(e){
 	    success: function(result){
 	    	if(result.status == 'success'){
     			Materialize.toast('SVC Plan created successfully!', 4000);
+    			setTimeout(function(){
+    				location.href = 'svcPlans.html';
+    			}, 2000);
 	    	}
 	    },
 	    error: function (jqXHR, textStatus, errorThrown) {
@@ -300,6 +522,51 @@ $('.saveVendorBtn').click(function(e){
 	    success: function(result){
 	    	if(result.status == 'success'){
     			Materialize.toast('Vendor created successfully!', 4000);
+    			setTimeout(function(){
+    				location.href = 'vendors.html';
+    			}, 2000);
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
+
+//on edit vendor save click
+$('.editVendorBtn').click(function(e){
+	e.preventDefault();
+
+	var vendorId = localStorage.getItem('vendorId');
+
+	var name = $('#vendorName').val();
+	var email = $('#email').val();
+	var countryCode = $('#countryCode').val();
+	var mobileNumber = $('#mobileNumber').val();
+	var address = $('#address').val();
+	var dealershipType = $('#dealershipType').val();
+	var phoneNumber = $('#phoneNumber').val();
+	var contactName = $('#contactName').val();
+
+	var contactPersons = {"phoneNumber":phoneNumber, "name":contactName};
+
+	var data = {"name":name, "countryCode":countryCode, "phoneNumber":mobileNumber, "contactPersons":contactPersons, "address":address, "dealershipType":dealershipType, "email":email};
+
+	$.ajax({
+		url: baseUrl + 'vendor/'+vendorId,
+		type: "PUT",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    data: JSON.stringify(data),
+	    /*beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },*/
+	    success: function(result){
+	    	if(result.status == 'success'){
+    			Materialize.toast('Vendor edited successfully!', 4000);
+    			setTimeout(function(){
+    				location.href = 'vendors.html';
+    			}, 2000);
 	    	}
 	    },
 	    error: function (jqXHR, textStatus, errorThrown) {
@@ -357,6 +624,55 @@ $('.saveVehicleBtn').click(function(e){
 	    success: function(result){
 	    	if(result.status == 'success'){
     			Materialize.toast('Vehicle added successfully!', 4000);
+    			setTimeout(function(){
+    				location.href = 'vehicles.html';
+    			}, 2000);
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
+
+//on vehicle edit save
+$('.editVehicleBtn').click(function(e){
+	e.preventDefault();
+
+	var vehicleId = localStorage.getItem('vehicleId');
+
+	var registrationNumber = $('#regNumber').val();
+	var registrationExpiry = new Date($('#registrationExpiry').val());
+	var insuranceNumber = $('#insuranceNumber').val();
+	var insuranceExpiry = new Date($('#insuranceExpiry').val());
+	var permitNumber = $('#permitNumber').val();
+	var permitExpiry = new Date($('#permitExpiry').val());
+	var emissionNumber = $('#emissionNumber').val();
+	var emissionExpiry = new Date($('#emissionExpiry').val());
+	var trackingDeviceIMEI = $('#trackingDeviceIMEI').val();
+	var lastServiceDistanceReading = $('#lastServiceDistanceReading').val();
+	var lastServiceDate = new Date($('#lastServiceDate').val());
+	var currentDistanceReading = $('#currentDistanceReading').val();
+	var model = $('#model').val();
+	var brand = $('#brand').val();
+
+	var data = {"registrationNumber":registrationNumber, "registrationExpiry":registrationExpiry, "insuranceNumber":insuranceNumber, "insuranceExpiry":insuranceExpiry, "permitExpiry":permitExpiry, "permitNumber":permitNumber, "emissionExpiry":emissionExpiry, "emissionNumber":emissionNumber, "trackingDeviceIMEI":trackingDeviceIMEI, "lastServiceDate":lastServiceDate, "lastServiceDistanceReading":lastServiceDistanceReading, "currentDistanceReading":currentDistanceReading, "model":model, "brand":brand};
+
+	$.ajax({
+		url: baseUrl + 'vehicle/'+vehicleId,
+		type: "PUT",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    data: JSON.stringify(data),
+	    /*beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },*/
+	    success: function(result){
+	    	if(result.status == 'success'){
+    			Materialize.toast('Vehicle edited successfully!', 4000);
+    			setTimeout(function(){
+    				location.href = 'vehicles.html';
+    			}, 2000);
 	    	}
 	    },
 	    error: function (jqXHR, textStatus, errorThrown) {

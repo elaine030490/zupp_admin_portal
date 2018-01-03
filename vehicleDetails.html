@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Vehicles</title>
+        <title>Vehicle Details</title>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!-- Bootstrap CSS -->
@@ -20,7 +20,7 @@
                 <div class="logo">
                     <img src="img/Zupp web_Logo.png" alt="ZUPP" />
                 </div>
-                <a class="logoutBtn">LOGOUT</a>
+                <div class="logoutBtn">LOGOUT</div>
             </div>
 
             <div class="sideNavArea">
@@ -41,85 +41,95 @@
                 <div class="createSVCDiv">
 
                     <form>
-                        <div class="createForm" id="createForm">
-                            <div class="personalDetails">
+                        <div class="vehicleDetailsForm" id="createForm">
+                            <div class="imageDiv">
+                                <div>Vehicle Details</div>
+                                <div id="image"></div>
+                            </div>
+
+                            <div class="vehicleDetailsDiv">
                                 <div class="input-field">
-                                    <input placeholder="Brand" id="brand" type="text" class="brand">
-                                    <label for="brand">Brand*</label>
+                                    <p class="vehicleTitle">Brand</p>
+                                    <div id="brand"></div>
                                 </div>
 
                                 <div class="input-field">
-                                    <input placeholder="Model" id="model" type="text" class="model">
-                                    <label for="model">Model*</label>
+                                    <p class="vehicleTitle">Model</p>
+                                    <div id="model"></div>
                                 </div>
 
                                 <div class="input-field">
-                                    <input placeholder="Registration Number" id="regNumber" type="text" class="regNumber">
-                                    <label for="regNumber">Registration Number *</label>
+                                    <p class="vehicleTitle">Registration Number</p>
+                                    <div id="regNumber"></div>
+                                </div>
+                                
+                                <div class="input-field">
+                                    <p class="vehicleTitle">Status</p>
+                                    <div id="status"></div>
                                 </div>
 
                                 <div class="input-field">
-                                    <input placeholder="Registration Expiry Date" id="registrationExpiry" type="text" class="datepicker">
-                                    <label for="registrationExpiry">Registration Expiry Date *</label>
+                                    <p class="vehicleTitle">Registration Expiry Date</p>
+                                    <div id="regExpiry"></div>
                                 </div>
 
                                 <div class="input-field">
-                                    <input placeholder="Current Distance Reading" id="currentDistanceReading" type="text" class="currentDistanceReading">
-                                    <label for="currentDistanceReading">Current Distance Reading*</label>
+                                    <p class="vehicleTitle">Current Distance Reading</p>
+                                    <div id="currentDist"></div>
                                 </div>
 
                                 <div class="input-field">
-                                    <input placeholder="Last Service Distance Reading" id="lastServiceDistanceReading" type="text" class="lastServiceDistanceReading">
-                                    <label for="lastServiceDistanceReading">Last Service Distance Reading*</label>
+                                    <p class="vehicleTitle">Last Service Distance Reading</p>
+                                    <div id="lastServiceDist"></div>
                                 </div>
 
                                 <div class="input-field">
-                                    <input placeholder="Last Service Date" id="lastServiceDate" type="text" class="datepicker">
-                                    <label for="lastServiceDate">Last Service Date*</label>
+                                    <p class="vehicleTitle">Last Service Date</p>
+                                    <div id="lastServiceDate"></div>
                                 </div>
 
                             </div>
 
-                            <div class="addressDetails">
+                            <div class="vehicleDetailsMoreDiv">
                                 <div class="input-field">
-                                    <input placeholder="Emission Number" id="emissionNumber" type="text" class="emissionNumber">
-                                    <label for="emissionNumber">Emission Number*</label>
+                                    <p class="vehicleTitle">Emission Number</p>
+                                    <div id="emissionNumber"></div>
                                 </div>
 
                                 <div class="input-field">
-                                    <input placeholder="Emission Expiry Date" id="emissionExpiry" type="text" class="datepicker">
-                                    <label for="emissionExpiry">Emission Expiry Date*</label>
+                                    <p class="vehicleTitle">Emission Expiry Date</p>
+                                    <div id="emissionExpiryDate"></div>
                                 </div>
 
                                 <div class="input-field">
-                                    <input placeholder="Insurance Number" id="insuranceNumber" type="text" class="insuranceNumber">
-                                    <label for="insuranceNumber">Insurance Number *</label>
+                                    <p class="vehicleTitle">Insurance Number</p>
+                                    <div id="insuranceNumber"></div>
                                 </div>
 
                                 <div class="input-field">
-                                    <input placeholder="Insurance Expiry Date" id="insuranceExpiry" type="text" class="datepicker">
-                                    <label for="insuranceExpiry">Insurance Expiry Date *</label>
+                                    <p class="vehicleTitle">Insurance Expiry Date</p>
+                                    <div id="insuranceExpiryDate"></div>
                                 </div>
 
                                 <div class="input-field">
-                                    <input placeholder="Tracking Device IMEI Number" id="trackingDeviceIMEI" type="text" class="trackingDeviceIMEI">
-                                    <label for="trackingDeviceIMEI">Tracking Device IMEI Number*</label>
+                                    <p class="vehicleTitle">Tracking Device IMEI Number</p>
+                                    <div id="trackingNumber"></div>
                                 </div>
 
                                 <div class="input-field">
-                                    <input placeholder="Permit Number" id="permitNumber" type="text" class="permitNumber">
-                                    <label for="permitNumber">Permit Number*</label>
+                                    <p class="vehicleTitle">Permit Number</p>
+                                    <div id="permitNumber"></div>
                                 </div>
 
                                 <div class="input-field">
-                                    <input placeholder="Permit Expiry Date" id="permitExpiry" type="text" class="datepicker">
-                                    <label for="permitExpiry">Permit Expiry Date</label>
+                                    <p class="vehicleTitle">Permit Expiry Date</p>
+                                    <div id="permitExpiryDate"></div>
                                 </div>
                                 
-                                <div>
+                                <!-- <div>
                                     <img class="saveImg" src="img/Zupp web_Save and print.png"/>
                                     <button class="btn saveBtn saveVehicleBtn">Save</button>
-                                </span>
+                                </div> -->
                             </div>
 
                         </div>

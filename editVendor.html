@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vendor - Edit</title>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <link type="text/css" rel="stylesheet" href="css/styles.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+        <!-- Import materialize.css -->
+        <link type="text/css" rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+        <div class="svcWrapper">
+            <div class="topNav">
+                <div class="logo">
+                    <img src="img/Zupp web_Logo.png" alt="ZUPP" />
+                </div>
+                <div class="logoutBtn">LOGOUT</div>
+            </div>
+
+            <div class="sideNavArea">
+                <div></div>
+                <div class="sideNav">
+                    <a class="navItem selected" id="garage" href="vendors.html">Vendors</a>
+                    <a class="navItem" id="reports" href="vehicles.html">Vehicles</a>
+                    <a class="navItem" id="svc" href="svcPlans.html">SVC Plan</a>
+                    <a class="navItem" id="svc" href="reports.html">Reports</a>
+                </div>
+                <div class="createSVCBtn">
+                    <img src="img/Zupp web_FAB.png" class="createClick" alt="Create Vendor" />
+                    <p class="createText">Create Vendor</p>
+                </div>
+            </div>
+
+            <div class="svcMainContent">
+                <div class="createSVCDiv">
+
+                    <form>
+                        <div class="createForm" id="createForm">
+                            <div class="personalDetails">
+                                <div class="input-field">
+                                    <input placeholder="Name" id="vendorName" type="text" class="name">
+                                    <label for="vendorName">Vendor Name *</label>
+                                </div>
+                                <div class="input-field">
+                                    <input placeholder="email" id="email" type="text" class="email">
+                                    <label for="email">email *</label>
+                                </div>
+                                <div class="input-field">
+                                    <input placeholder="Country Code" id="countryCode" type="text" class="countryCode">
+                                    <label for="countryCode">Country Code *</label>
+                                </div>
+                                <div class="input-field">
+                                    <input placeholder="Mobile Number" id="mobileNumber" type="text" class="mobileNumber">
+                                    <label for="mobileNumber">Mobile Number *</label>
+                                </div>
+                                <div class="input-field">
+                                    <input placeholder="Address" id="address" type="text" class="address">
+                                    <label for="add1">Address*</label>
+                                </div>
+                                <div class="input-field">
+                                    <input placeholder="Dealership Type" id="dealershipType" type="text" class="dealershipType">
+                                    <label for="dealershipType">Dealership Type</label>
+                                </div>
+                            </div>
+
+                            <div class="addressDetails">
+                                <div class="createLabel">Contact Person Info</div>
+                                <div class="input-field">
+                                    <input placeholder="Name" id="contactName" type="text" class="name">
+                                    <label for="name">Name*</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <input placeholder="Phone Number" id="phoneNumber" type="text" class="phoneNumber">
+                                    <label for="phoneNumber">Phone Number*</label>
+                                </div>
+                                <div>
+                                    <img class="saveImg" src="img/Zupp web_Save and print.png"/>
+                                    <button class="btn saveBtn editVendorBtn">Save Changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <!--Import jQuery before materialize.js-->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    </body>
+</html>
