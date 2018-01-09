@@ -501,13 +501,22 @@ select{
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-        "personalDetails . addressDetails";
+        "personalDetails . addressDetails"
+        "vehiclesDiv vehiclesDiv";
 }
 .vehicleDetailsForm{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas:
         "imageDiv vehicleDetailsDiv vehicleDetailsMoreDiv";
+}
+.vehicles{
+    margin-left: 20px;
+}
+.vehicles li{
+    list-style-type: circle !important;
+    font-size: 20px;
+    margin-bottom: 5px;
 }
 .personalDetails, .addressDetails{
     margin: 20px 80px 20px 0;

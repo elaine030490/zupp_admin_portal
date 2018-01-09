@@ -345,7 +345,9 @@ else if(vendorId !== '' || vendorId !== null){
 					    			Materialize.toast('No vehicles found!', 4000);
 					    		}
 					    		else{
-					    			
+					    			$.each(result.data, function(key, val){
+					    				$('.vehicles').append('<li class="singleVehicle">'+val.brand+'  '+val.model+' - '+val.registrationNumber+'</li>');
+					    			});
 					    		}
 					    	}
 					    },
@@ -439,7 +441,8 @@ $.ajax({
     			$('.planListBody').empty();
 
     			$.each(result.data, function(key, val){
-    				$('.planListBody').append('<tr><td>'+val.name+'</td><td>'+val.cost+'</td><td>'+val.validityDuration+'</td><td>'+val.noOfClaims+'</td><td class='+val.id+'>Edit</td><td id='+val.id+'>Delete</td></tr>');
+    				var delBtn = '<a id='+val.id+' class="btn btn-flat deleteBtn">Delete</a>';
+    				$('.planListBody').append('<tr><td>'+val.name+'</td><td>'+val.cost+'</td><td>'+val.validityDuration+'</td><td>'+val.noOfClaims+'</td></tr>');
     			});
     		}
     	}
@@ -447,6 +450,13 @@ $.ajax({
     error: function (jqXHR, textStatus, errorThrown) {
     	console.log('error');
     }
+});
+
+//on edit plan
+$('.planListBody').on('click', '.editBtn', function(){
+	var planId = $(this).attr('id');
+	localStorage.setItem('planId', planId);
+	location.href = 'editPlan.html';
 });
 
 //on create svc plan click

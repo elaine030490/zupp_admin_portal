@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Vendor Details</title>
+        <title>SVC Plans</title>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!-- Bootstrap CSS -->
@@ -27,9 +27,9 @@
             <div class="sideNavArea">
                 <div></div>
                 <div class="sideNav">
-                    <a class="navItem selected" id="garage" href="vendors.html">Vendors</a>
+                    <a class="navItem" id="garage" href="vendors.html">Vendors</a>
                     <a class="navItem" id="reports" href="vehicles.html">Vehicles</a>
-                    <a class="navItem" id="svc" href="svcPlans.html">SVC Plan</a>
+                    <a class="navItem selected" id="svc" href="svcPlans.html">SVC Plan</a>
                     <a class="navItem" id="svc" href="reports.html">Reports</a>
                 </div>
                 <div class="createSVCBtn">
@@ -45,41 +45,29 @@
                         <div class="createForm" id="createForm">
                             <div class="personalDetails">
                                 <div class="input-field">
-                                    <p class="vehicleTitle">Vendor Name</p>
-                                    <div id="name"></div>
+                                    <input placeholder="Name" id="name" type="text">
+                                    <label for="name">Plan Name *</label>
                                 </div>
                                 <div class="input-field">
-                                    <p class="vehicleTitle">email</p>
-                                    <div id="email"></div>
+                                    <input placeholder="Cost" id="cost" type="text">
+                                    <label for="cost">Cost *</label>
                                 </div>
                                 <div class="input-field">
-                                    <p class="vehicleTitle">Phone Number</p>
-                                    <div id="phone"></div>
+                                    <input placeholder="Validity Duration" id="duration" type="text">
+                                    <label for="duration">Validity Duration *</label>
                                 </div>
                                 <div class="input-field">
-                                    <p class="vehicleTitle">Address</p>
-                                    <div id="address"></div>
+                                    <input placeholder="No. of claims" id="claims" type="text">
+                                    <label for="claims">No. of claims *</label>
                                 </div>
-                                <div class="input-field">
-                                    <p class="vehicleTitle">Dealership Type</p>
-                                    <div id="dealer"></div>
+                                <div>
+                                    <img class="saveImg" src="img/Zupp web_Save and print.png"/>
+                                    <button class="btn saveBtn savePlanBtn">Save</button>
                                 </div>
                             </div>
 
                             <div class="addressDetails">
-                                <div class="createLabel">Contact Persons Info</div>
-                                <div class="contactPersonDiv">
-                                    
-                                </div>
                             </div>
-
-                            <div class="vehiclesDiv">
-                                <div class="createLabel">Vehicles</div>
-                                <ul class="vehicles">
-                                    
-                                </ul>
-                            </div>
-
                         </div>
                     </form>
                 </div>
