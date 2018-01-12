@@ -448,8 +448,13 @@ select{
     height: 35%;
     width: 40%;
 }
+
 .modal-content{
     padding: 10px !important;
+}
+#getPhoneModal{
+    width: 30%;
+    height: 30%;
 }
 /* 
 ** SVC Page
@@ -476,6 +481,9 @@ select{
 }
 .searchValue{
     margin-right: 20px !important;
+}
+.regNoLabel{
+    margin-top: 20px;
 }
 /* 
 ** Create SVC Page
@@ -540,7 +548,7 @@ input[type=text]:focus{
 .attachLabel{
     font-size: 18px;
 }
-.saveBtn, .addVehicleBtn, .saveVehicleBtn, .addVendorBtn, .assignVendorBtn, .createPlanBtn, .savePlanBtn{
+.saveBtn, .addVehicleBtn, .saveVehicleBtn, .addVendorBtn, .assignVendorBtn, .createPlanBtn, .savePlanBtn, .createClaimBtn{
     background-color: #FECD2F !important;
     color: black !important;
     text-transform: none !important;
@@ -550,7 +558,7 @@ input[type=text]:focus{
     margin-right: -5px;
     float: right;
 }
-.addVehicleBtn, .addVendorBtn, .assignVendorBtn, .createPlanBtn{
+.addVehicleBtn, .addVendorBtn, .assignVendorBtn, .createPlanBtn, .createClaimBtn{
     float: none;
 }
 .addVehicleBtn{

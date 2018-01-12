@@ -459,10 +459,74 @@ $('.planListBody').on('click', '.editBtn', function(){
 	location.href = 'editPlan.html';
 });
 
+//on create claim click
+$('.createClaimBtn').click(function(){
+	$('#getPhoneModal').modal('open');
+});
+
+//on phone number save click
+$('.savePhoneBtn').click(function(){
+
+	var phoneNumber = $('.phoneNumber').val();
+	var data = {"phoneNumber": phoneNumber};
+
+	$.ajax({
+		url: baseUrl + 'claim/o/',
+		type: "POST",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    data: JSON.stringify(data),
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result){
+	    		location.href = 'createClaim.html';
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
+
+//save claim
+$('.saveClaimBtn').click(function(){
+	var otp = $('#otp').val();
+	var claim = $('#claim').val();
+	var location = $('#location').val();
+	var days = $('#days').val();
+
+	var data = {"otp":otp, "typeOfClaim":claim, "location":location, "days":days };
+
+	$.ajax({
+		url: baseUrl + 'claim',
+		type: "POST",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    data: JSON.stringify(data),
+	    /*beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },*/
+	    success: function(result){
+	    	if(result.status == 'success'){
+    			Materialize.toast('Claim created successfully!', 4000);
+    			setTimeout(function(){
+    				location.href = 'svcPlans.html';
+    			}, 2000);
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
+
 //on create svc plan click
 $('.createPlanBtn').click(function(){
 	location.href = 'createPlan.html';
 });
+
 
 //on save plan click
 $('.savePlanBtn').click(function(e){
@@ -491,6 +555,27 @@ $('.savePlanBtn').click(function(e){
     				location.href = 'svcPlans.html';
     			}, 2000);
 	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
+
+//on claim search
+$('.goButton').click(function(){
+	var searchString = $('.searchValue').val();
+
+	$.ajax({
+		url: baseUrl + 'claim?searchString='+searchString,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    /*beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },*/
+	    success: function(result){
+	    	
 	    },
 	    error: function (jqXHR, textStatus, errorThrown) {
 	    	console.log('error');
