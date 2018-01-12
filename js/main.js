@@ -491,7 +491,9 @@ $('.savePhoneBtn').click(function(){
 });
 
 //save claim
-$('.saveClaimBtn').click(function(){
+$('.saveClaimBtn').click(function(e){
+	e.preventDefault();
+
 	var otp = $('#otp').val();
 	var claim = $('#claim').val();
 	var location = $('#location').val();
@@ -511,7 +513,7 @@ $('.saveClaimBtn').click(function(){
 	    success: function(result){
 	    	if(result.status == 'success'){
     			Materialize.toast('Claim created successfully!', 4000);
-    			setTimeout(function(){
+	    		setTimeout(function(){
     				location.href = 'svcPlans.html';
     			}, 2000);
 	    	}
@@ -575,7 +577,44 @@ $('.goButton').click(function(){
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
 	    },*/
 	    success: function(result){
-	    	
+	    	if(result.status == 'success'){
+	    		$.each(result.data, function(key, val){
+	    			if(val.status == 'completed'){
+
+	    				var endClaimBtn = "<a id="+val.id+" disabled class='btn endClaimBtn'>Claim ended</a>";
+	    			}
+	    			else
+	    				var endClaimBtn = "<a id="+val.id+" class='btn endClaimBtn'>End Claim</a>";
+
+	    			$('.claimListBody').append('<tr><td>'+val.vehicleId.registrationNumber+'</td><td>'+formatNewDate(val.expectedTimeOfReturn)+'</td><td>'+val.location+'</td><td>'+val.customerId+'</td><td>'+endClaimBtn+'</td></tr>');
+	    		});
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
+
+//on end claim
+$('.claimListBody').on('click', '.endClaimBtn', function(){
+	var claimId = $(this).attr('id');
+
+	$.ajax({
+		url: baseUrl + 'claim/e/'+claimId,
+		type: "POST",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    /*beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },*/
+	    success: function(result){
+	    	if(result){
+	    		Materialize.toast('Claim ended successfully!', 4000);
+	    		setTimeout(function(){
+    				location.reload();
+    			}, 2000);
+	    	}
 	    },
 	    error: function (jqXHR, textStatus, errorThrown) {
 	    	console.log('error');
