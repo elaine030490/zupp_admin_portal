@@ -91,8 +91,9 @@ $.ajax({
     					var addVendorBtn = '<a id='+val.id+' class="btn waves-effect waves-light addVendorBtn modal-trigger">Change Vendor</a>';
     				var editBtn = '<a id='+val.id+' class="btn btn-flat editBtn">Edit</a>';
     				var delBtn = '<a id='+val.id+' class="btn btn-flat deleteBtn">Delete</a>';
+    				var changeStatus = '<a id='+val.id+' class="btn waves-effect changeStatusBtn">Change Status</a>';
 
-	        		$('.dashboardMainContent').append('<div class="garageCard"><img src='+val.image+' alt="Bike"><div class="cardText"><div class="gridRow1"><div class="brandName">'+val.brand+' '+val.model+'</div><div class="regNo">'+val.registrationNumber+'</div></div><div class="gridRow2"><label class="cardLabel">Insurance Valid Till</label><div class="insuranceDate">'+formatNewDate(val.insuranceExpiry)+'</div></div><div class="gridRow4"><label class="cardLabel">Last Serviced On</label><div class="serviceDate">'+formatNewDate(val.lastServiceDate)+'</div></div><div class="gridRow5"><label class="cardLabel">Vendor</label><div class="currentStatus">'+val.vendorId+'</div></div><div class="gridRow5"><label class="cardLabel">Status</label><div class="currentStatus">'+val.status+'</div></div></div><div>'+addVendorBtn+'</div><div class="cardBtns">'+editBtn+''+delBtn+'</div></div>');
+	        		$('.dashboardMainContent').append('<div class="garageCard"><img src='+val.image+' alt="Bike"><div class="cardText"><div class="gridRow1"><div class="brandName">'+val.brand+' '+val.model+'</div><div class="regNo">'+val.registrationNumber+'</div></div><div class="gridRow2"><label class="cardLabel">Insurance Valid Till</label><div class="insuranceDate">'+formatNewDate(val.insuranceExpiry)+'</div></div><div class="gridRow4"><label class="cardLabel">Last Serviced On</label><div class="serviceDate">'+formatNewDate(val.lastServiceDate)+'</div></div><div class="gridRow5"><label class="cardLabel">Vendor</label><div class="currentStatus">'+val.vendorId+'</div></div><div class="gridRow5"><label class="cardLabel">Status</label><div class="currentStatus">'+val.status+'</div></div></div><div>'+changeStatus+''+addVendorBtn+'</div><div class="cardBtns">'+editBtn+''+delBtn+'</div></div>');
     			});
     		}
     	}
@@ -288,8 +289,8 @@ $.ajax({
     			$('.vendorListBody').empty();
 
     			$.each(result.data, function(key, val){
-    				var editBtn = '<a id='+val.id+' class="btn btn-flat editBtn">Edit</a>';
-    				var delBtn = '<a id='+val.id+' class="btn btn-flat deleteBtn">Delete</a>';
+    				var editBtn = '<a id='+val.id+' class="btn btn-flat editBtn vendorEdit">Edit</a>';
+    				var delBtn = '<a id='+val.id+' class="btn btn-flat deleteBtn vendorDelete">Delete</a>';
     				$('.vendorListBody').append('<tr><td class="vendorClick" id='+val.id+'>'+val.token+'</td><td>'+val.name+'</td><td>'+val.dealershipType+'</td><td>'+val.address+'</td><td>'+val.email+'</td><td>'+val.phoneNumber+'</td><td class='+val.id+'>'+editBtn+'</td><td id='+val.id+'>'+delBtn+'</td></tr>');
     				$('.vendorSelect').append('<option value='+val.id+'>'+val.name+'</option>');
     			});

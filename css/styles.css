@@ -579,7 +579,7 @@ input[type=text]:focus{
 .attachLabel{
     font-size: 18px;
 }
-.saveBtn, .addVehicleBtn, .saveVehicleBtn, .addVendorBtn, .changeVendorBtn, .assignVendorBtn, .createPlanBtn, .savePlanBtn, .createClaimBtn, .modal-close, .endClaimBtn{
+.saveBtn, .addVehicleBtn, .saveVehicleBtn, .addVendorBtn, .changeVendorBtn, .assignVendorBtn, .changeStatusBtn, .createPlanBtn, .savePlanBtn, .createClaimBtn, .modal-close, .endClaimBtn{
     background-color: #FECD2F !important;
     color: black !important;
     text-transform: none !important;
@@ -589,11 +589,16 @@ input[type=text]:focus{
     margin-right: -5px;
     float: right;
 }
-.addVehicleBtn, .addVendorBtn, .assignVendorBtn, .createPlanBtn, .createClaimBtn, .modal-close, .endClaimBtn{
+.addVehicleBtn, .addVendorBtn, .assignVendorBtn, .createPlanBtn, .createClaimBtn, .modal-close, .endClaimBtn, .changeStatusBtn{
     float: none;
 }
-.addVendorBtn, .changeVendorBtn, .endClaimBtn{
+.addVendorBtn, .changeVendorBtn, .endClaimBtn, .changeStatusBtn{
     margin-top: 0 !important;
+}
+.addVendorBtn, .changeStatusBtn, .editBtn, .delBtn{
+    padding: 0 20px !important;
+    margin-right: 10px !important;
+    margin-left: 10px !important;
 }
 .modal-close{
     margin-left: 20px;
@@ -700,4 +705,13 @@ input[type=text]:focus{
 }
 .svcDetailsDiv > .personalDetailsPrint > .printText, .svcDetailsDiv > .addressDetailsPrint > .printText{
     margin-bottom: 0;
+}
+.vendorEdit{
+    padding-top: 5px !important;
+    width: 50% !important;
+    margin-left: -10px !important;
+}
+.vendorDelete{
+    width: 70% !important;
+    margin-left: -10px !important;
 }
