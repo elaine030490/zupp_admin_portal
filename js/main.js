@@ -6,13 +6,12 @@ var user = '';
 //admin login
 $(".loginButton").click(function (e) { 
     e.preventDefault();
-    window.location.href = './vendors.html';
 
     $(this)[0].innerHTML = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span>';
     $(this).attr('disabled', 'disabled');
 
-    var email = $('.dealerId').val();
-    var password = $('.dealerPassword').val();
+    var email = $('.adminId').val();
+    var password = $('.adminPassword').val();
 
     if(email == '' || password == ''){
     	Materialize.toast('Please enter valid login credentials!', 4000);
@@ -38,8 +37,8 @@ $(".loginButton").click(function (e) {
 	        error: function (jqXHR, textStatus, errorThrown) {
 	        	if(jqXHR.status == 500){
 	        		Materialize.toast('Please enter valid credentials to login!', 4000);
-	        		$(this)[0].innerHTML = 'ZUPP!';
-    				$(this).attr('disabled', false);
+	        		$('.loginButton')[0].innerHTML = 'ZUPP!';
+    				$('.loginButton').attr('disabled', false);
 	        	}
 	        }
 	    });  
@@ -54,13 +53,18 @@ $('.logoutBtn').click(function(){
 
 //format date
 function formatNewDate(date){
-	var currentTime = new Date(date);
-	var date = currentTime.getDate();
-	var month = currentTime.getMonth() + 1;
-	var year = currentTime.getFullYear();
+	if(date !== undefined){
+		var currentTime = new Date(date);
+		var date = currentTime.getDate();
+		var month = currentTime.getMonth() + 1;
+		var year = currentTime.getFullYear();
 
-	var fullDate = date + '/' + month + '/' + year;
-	return fullDate;
+		var fullDate = date + '/' + month + '/' + year;
+		return fullDate;
+	}
+	else{
+		return '';
+	}
 }
 
 //get vehicle list
@@ -82,13 +86,13 @@ $.ajax({
 
     			$.each(result.data, function(key, val){
     				if(val.vendorId == undefined)
-    					var addVendorBtn = '<a id='+val.id+' class="btn waves-effect waves-light addVendorBtn modal-trigger">Assign Vendor</a>';
+    					var addVendorBtn = '<a id='+val.id+' class="btn waves-effect waves-light addVendorBtn">Assign Vendor</a>';
     				else
-    					var addVendorBtn = '';
+    					var addVendorBtn = '<a id='+val.id+' class="btn waves-effect waves-light addVendorBtn modal-trigger">Change Vendor</a>';
     				var editBtn = '<a id='+val.id+' class="btn btn-flat editBtn">Edit</a>';
     				var delBtn = '<a id='+val.id+' class="btn btn-flat deleteBtn">Delete</a>';
 
-    				$('.tableBody').append('<tr><td id='+val.id+' class="vehicleSelect">'+val.registrationNumber+'</td><td>'+val.brand+'</td><td>'+val.model+'</td><td>'+val.vendorId+'</td><td>'+val.status+'</td><td class='+val.id+'>'+editBtn+'</td><td id='+val.id+'>'+delBtn+'</td><td>'+addVendorBtn+'</td></tr>');
+	        		$('.dashboardMainContent').append('<div class="garageCard"><img src='+val.image+' alt="Bike"><div class="cardText"><div class="gridRow1"><div class="brandName">'+val.brand+' '+val.model+'</div><div class="regNo">'+val.registrationNumber+'</div></div><div class="gridRow2"><label class="cardLabel">Insurance Valid Till</label><div class="insuranceDate">'+formatNewDate(val.insuranceExpiry)+'</div></div><div class="gridRow4"><label class="cardLabel">Last Serviced On</label><div class="serviceDate">'+formatNewDate(val.lastServiceDate)+'</div></div><div class="gridRow5"><label class="cardLabel">Vendor</label><div class="currentStatus">'+val.vendorId+'</div></div><div class="gridRow5"><label class="cardLabel">Status</label><div class="currentStatus">'+val.status+'</div></div></div><div>'+addVendorBtn+'</div><div class="cardBtns">'+editBtn+''+delBtn+'</div></div>');
     			});
     		}
     	}
@@ -106,8 +110,8 @@ $('.tableBody').on('click', '.vehicleSelect', function(){
 });
 
 //assign vendor button click
-$('.tableBody').on('click', '.addVendorBtn', function(){
-    var vehicleId = $(this).attr('id');
+$('.dashboardMainContent').on('click', '.addVendorBtn', function(){
+	var vehicleId = $(this).attr('id');
     localStorage.setItem('vehicleId', vehicleId);
     $('#assignVendorModal').modal('open');
 });
@@ -253,7 +257,7 @@ $.ajax({
     			$.each(result.data, function(key, val){
     				var editBtn = '<a id='+val.id+' class="btn btn-flat editBtn">Edit</a>';
     				var delBtn = '<a id='+val.id+' class="btn btn-flat deleteBtn">Delete</a>';
-    				$('.vendorListBody').append('<tr><td class="vendorClick" id='+val.id+'>'+val.token+'</td><td>'+val.name+'</td><td>'+val.dealershipType+'</td><td>'+val.email+'</td><td>'+val.phoneNumber+'</td><td class='+val.id+'>'+editBtn+'</td><td id='+val.id+'>'+delBtn+'</td></tr>');
+    				$('.vendorListBody').append('<tr><td class="vendorClick" id='+val.id+'>'+val.token+'</td><td>'+val.name+'</td><td>'+val.dealershipType+'</td><td>'+val.address+'</td><td>'+val.email+'</td><td>'+val.phoneNumber+'</td><td class='+val.id+'>'+editBtn+'</td><td id='+val.id+'>'+delBtn+'</td></tr>');
     				$('.vendorSelect').append('<option value='+val.id+'>'+val.name+'</option>');
     			});
     		}
@@ -300,6 +304,41 @@ $('.vendorListBody').on('click', '.deleteBtn', function(){
 	    	console.log('error');
 	    }
 	});
+});
+
+//edit vendor from vendor details page
+$('.goToEditVendor').click(function(e){
+	e.preventDefault();
+
+	var vendorId = localStorage.getItem('vendorId');
+	location.href = 'editVendor.html';
+});
+
+
+//delete vendor from vendor details page
+$('.deleteVendorBtn').click(function(){
+	var vendorId = localStorage.getItem('vendorId');
+	
+	if(confirm('Are you sure you want to delete this vendor?')){
+		$.ajax({
+			url: baseUrl + 'vendor/'+vendorId,
+			type: "DELETE",
+		    contentType: "application/json",
+		    crossDomain: true,
+		    /*beforeSend: function (xhr) {
+		      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+		    },*/
+		    success: function(result){
+		    	if(result.status == 'success'){
+		    		Materialize.toast('Vendor deactivated!', 4000);
+		    		location.href = 'vendors.html'; 	
+		    	}
+		    },
+		    error: function (jqXHR, textStatus, errorThrown) {
+		    	console.log('error');
+		    }
+		});
+	}
 });
 
 //get vehicles of single vendor
@@ -389,32 +428,13 @@ $.ajax({
     			Materialize.toast('No report found!', 4000);
     		}
     		else{
-    			$('#rentalReport').empty();
-    			$('#svcReport').append('<div class="collection"><a class="collection-item"><span class="badge revenueGenerated">Rs. '+result.data.revenueGenerated+'/-</span>Revenue Generated</a><a class="collection-item"><span class="badge svcClaims">'+result.data.svcClaims+'</span>SVC Claims</a><a class="collection-item"><span class="badge totalActiveSVC">'+result.data.totalActiveSVC+'</span>Total Active SVC</a><a class="collection-item"><span class="badge totalExpiredSVC">'+result.data.totalExpiredSVC+'</span>Total Expired SVC</a><a class="collection-item"><span class="badge totalSVC">'+result.data.totalSVC+'</span>Total SVC</a></div>')
-    		}
-    	}
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-    	console.log('error');
-    }
-});
-
-//get rental reports
-$.ajax({
-	url: baseUrl + 'report/booking',
-	type: "GET",
-    contentType: "application/json",
-    crossDomain: true,
-    beforeSend: function (xhr) {
-      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-    },
-    success: function(result){
-    	if(result.status == 'success'){
-    		if(result.data.length == 0){
-    			Materialize.toast('No report found!', 4000);
-    		}
-    		else{
-    			$('#rentalReport').append('<div class="collection"><a class="collection-item"><span class="badge totalBookings">Rs. '+result.data.totalBookings+'/-</span>Total Bookings</a><a class="collection-item"><span class="badge revenueGeneratedWithoutTax">Rs. '+result.data.revenueGeneratedWithoutTax+' /-</span>Revenue Generated without Tax</a><a class="collection-item"><span class="badge revenueGeneratedWithTax">Rs. '+result.data.revenueGeneratedWithTax+' /-</span>Revenue Generated with Tax</a></div>');
+    			$('.revenueGenerated')[0].innerHTML = result.data.revenueGenerated  + '/-';
+        		$('.svcClaims')[0].innerHTML = result.data.svcClaims;
+				$('.totalActiveSVC')[0].innerHTML = result.data.totalActiveSVC;        		
+				$('.totalExpiredSVC')[0].innerHTML = result.data.totalExpiredSVC;
+				$('.totalSVC')[0].innerHTML = result.data.totalSVC;
+				$('.Premium')[0].innerHTML = result.data.Premium;
+				$('.Standard')[0].innerHTML = result.data.Standard;
     		}
     	}
     },
@@ -442,7 +462,7 @@ $.ajax({
 
     			$.each(result.data, function(key, val){
     				var delBtn = '<a id='+val.id+' class="btn btn-flat deleteBtn">Delete</a>';
-    				$('.planListBody').append('<tr><td>'+val.name+'</td><td>'+val.cost+'</td><td>'+val.validityDuration+'</td><td>'+val.noOfClaims+'</td></tr>');
+    				$('.planListBody').append('<tr><td>'+val.name+'</td><td>'+val.cost+'</td><td>'+val.validityDuration+'</td><td>'+val.coverage+'</td><td>'+val.noOfClaims+'</td></tr>');
     			});
     		}
     	}
@@ -564,6 +584,33 @@ $('.savePlanBtn').click(function(e){
 	});
 });
 
+//get claims list
+$.ajax({
+	url: baseUrl + 'claim?searchString=svc',
+	type: "GET",
+    contentType: "application/json",
+    crossDomain: true,
+    /*beforeSend: function (xhr) {
+      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+    },*/
+    success: function(result){
+    	if(result.status == 'success'){
+    		$.each(result.data, function(key, val){
+    			if(val.status == 'completed'){
+					var endClaimBtn = "<a id="+val.id+" class='btn waves-effect endClaimBtn'>Get Report</a>";
+    			}
+    			else
+    				var endClaimBtn = "<a id="+val.id+" class='btn waves-effect endClaimBtn'>End Claim</a>";
+
+    			$('.claimListBody').append('<tr><td>'+val.vehicleId.registrationNumber+'</td><td>'+val.svcToken+'</td><td>'+formatNewDate(val.expectedTimeOfReturn)+'</td><td>'+formatNewDate(val.actualTimeOfReturn)+'</td><td>'+val.location+'</td><td>'+endClaimBtn+'</td></tr>');
+    		});
+    	}
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+    	console.log('error');
+    }
+});
+
 //on claim search
 $('.goButton').click(function(){
 	var searchString = $('.searchValue').val();
@@ -580,13 +627,12 @@ $('.goButton').click(function(){
 	    	if(result.status == 'success'){
 	    		$.each(result.data, function(key, val){
 	    			if(val.status == 'completed'){
-
-	    				var endClaimBtn = "<a id="+val.id+" disabled class='btn endClaimBtn'>Claim ended</a>";
+	    				var endClaimBtn = "<a id="+val.id+" class='btn endClaimBtn'>Get Report</a>";
 	    			}
 	    			else
 	    				var endClaimBtn = "<a id="+val.id+" class='btn endClaimBtn'>End Claim</a>";
 
-	    			$('.claimListBody').append('<tr><td>'+val.vehicleId.registrationNumber+'</td><td>'+formatNewDate(val.expectedTimeOfReturn)+'</td><td>'+val.location+'</td><td>'+val.customerId+'</td><td>'+endClaimBtn+'</td></tr>');
+	    			$('.claimListBody').append('<tr><td>'+val.vehicleId.registrationNumber+'</td><td>'+val.svcToken+'</td><td>'+formatNewDate(val.expectedTimeOfReturn)+'</td><td>'+formatNewDate(val.actualTimeOfReturn)+'</td><td>'+val.location+'</td><td>'+endClaimBtn+'</td></tr>');
 	    		});
 	    	}
 	    },

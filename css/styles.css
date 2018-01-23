@@ -203,7 +203,7 @@ input{
 .sideNav {
     border-right: 1px solid rgb(197, 197, 197);
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     align-items: center;
     justify-items: center;
 }
@@ -226,10 +226,10 @@ input{
     font-size: 18px;
 }
 
-.editBtn, .deleteBtn{
+.editBtn, .deleteBtn, .goToEditVendor, .deleteVendorBtn{
     border: 1px solid #FECD2F !important;
 }
-.editBtn:hover, .editBtn:focus, .deleteBtn:hover, .deleteBtn:focus{
+.editBtn:hover, .editBtn:focus, .deleteBtn:hover, .deleteBtn:focus, .goToEditVendor:hover, .deleteVendorBtn:hover, .goToEditVendor:focus, .deleteVendorBtn:focus{
     background-color: #fff !important;
 }
 .vendorClick, .vehicleSelect{
@@ -244,6 +244,37 @@ input{
 }
 #image img{
     width: 100%;
+}
+
+.brandName{
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: -10px;
+}
+
+.cardBtns{
+    width: 100%;
+    margin: 5px 0;
+}
+.editBtn, .deleteBtn{
+    width: 42%;
+    margin-left: 10px;
+}
+
+.reportLabel{
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.card-panel{
+    width: 20%;
+    text-align: center;
+    background-color: #fff !important;
+    border: 1px solid #FECD2F !important;
+    margin-right: 10px !important;
+}
+.reportsDiv{
+    display: flex !important;
 }
 
 .selected {
@@ -548,7 +579,7 @@ input[type=text]:focus{
 .attachLabel{
     font-size: 18px;
 }
-.saveBtn, .addVehicleBtn, .saveVehicleBtn, .addVendorBtn, .assignVendorBtn, .createPlanBtn, .savePlanBtn, .createClaimBtn{
+.saveBtn, .addVehicleBtn, .saveVehicleBtn, .addVendorBtn, .changeVendorBtn, .assignVendorBtn, .createPlanBtn, .savePlanBtn, .createClaimBtn, .modal-close, .endClaimBtn{
     background-color: #FECD2F !important;
     color: black !important;
     text-transform: none !important;
@@ -558,8 +589,17 @@ input[type=text]:focus{
     margin-right: -5px;
     float: right;
 }
-.addVehicleBtn, .addVendorBtn, .assignVendorBtn, .createPlanBtn, .createClaimBtn{
+.addVehicleBtn, .addVendorBtn, .assignVendorBtn, .createPlanBtn, .createClaimBtn, .modal-close, .endClaimBtn{
     float: none;
+}
+.addVendorBtn, .changeVendorBtn, .endClaimBtn{
+    margin-top: 0 !important;
+}
+.modal-close{
+    margin-left: 20px;
+}
+.buttonDiv{
+    margin-top: 30%;
 }
 .addVehicleBtn{
     margin-bottom: 20px;

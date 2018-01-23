@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Reports</title>
+        <title>SVC Plans</title>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!-- Import materialize.css -->
@@ -29,8 +29,8 @@
                     <a class="navItem" id="vendors" href="vendors.html">Vendors</a>
                     <a class="navItem" id="vehicles" href="vehicles.html">Vehicles</a>
                     <a class="navItem" id="svc" href="svcPlans.html">SVC Plans</a>
-                    <a class="navItem" id="svc" href="svcClaims.html">SVC Claims</a>
-                    <a class="navItem selected" id="reports" href="reports.html">Reports</a>
+                    <a class="navItem selected" id="svc" href="svcClaims.html">SVC Claims</a>
+                    <a class="navItem" id="reports" href="reports.html">Reports</a>
                 </div>
                 <div class="createSVCBtn">
                     <img src="img/Zupp web_FAB.png" class="createClick" alt="Create Vendor" />
@@ -39,48 +39,47 @@
             </div>
             <div class="svcMainContent">
                 <div class="svcDiv">
-                    <div class="rentalTable">
-
-                        <div class="reportsDiv">
-                            <div class="card-panel">
-                                <div class="reportLabel">Renevue Generated</div>
-                                <div class="regNo revenueGenerated"></div>
-                            </div>
-
-                            <div class="card-panel">
-                                <div class="reportLabel">Total SVCs</div>
-                                <div class="regNo totalSVC"></div>
-                            </div>
-
-                            <div class="card-panel">
-                                <div class="reportLabel">Total SVC Claims</div>
-                                <div class="regNo svcClaims"></div>
-                            </div>
-                        </div>
-                        <div class="reportsDiv">
-
-                            <div class="card-panel">
-                                <div class="reportLabel">Total Active SVCs</div>
-                                <div class="regNo totalActiveSVC"></div>
-                            </div>
-
-                            <div class="card-panel">
-                                <div class="reportLabel">Total Expired SVCs</div>
-                                <div class="regNo totalExpiredSVC"></div>
-                            </div>
-
-                            <div class="card-panel">
-                                <div class="reportLabel">SVCs with Premium Plan</div>
-                                <div class="regNo Premium"></div>
-                            </div>
-
-                            <div class="card-panel">
-                                <div class="reportLabel">SVCs with Standard Plan</div>
-                                <div class="regNo Standard"></div>
-                            </div>
-                        </div>
-
+                    <div>
+                        <a class="btn waves-effect waves-light createClaimBtn">Create Claim</a>
                     </div>
+
+                    <div class="regNoLabel">Search</div>
+                    <div class="searchBar">
+                        <input type="text" class="searchValue" placeholder="Search SVC no. / Mobile no." name="search"></input>
+                        <button class="btn goButton">Search</button>
+                    </div>
+
+                    <div class="claimsTable">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Vehicle Allocated</th>
+                                    <th>SVC Token</th>
+                                    <th>Expected Return Date</th>
+                                    <th>Actual Return Date</th>
+                                    <th>Location</th>
+                                    <th>End Claim</th>
+                                </tr>
+                            </thead>
+                            <tbody class="claimListBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!--Modal to assign vendor to vehicle-->
+            <div id="getPhoneModal" class="modal">
+                <div class="modal-content">
+                  <h5>Enter phone number to receive OTP to create a claim</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="input-field">
+                        <input placeholder="Phone Number" id="phoneNumber" type="text" class="phoneNumber">
+                        <label for="phoneNumber">Phone Number*</label>
+                    </div>
+
+                    <a class="btn waves-light waves-effect savePhoneBtn">Send OTP</a>
                 </div>
             </div>
         </div>
@@ -89,7 +88,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
-        <script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.min.js"></script>  
+        <script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript">
+            $('#getPhoneModal').modal();
+        </script>
     </body>
 </html>
