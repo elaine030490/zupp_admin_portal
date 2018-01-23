@@ -29,8 +29,8 @@
                 <div class="sideNav">
                     <a class="navItem" id="garage" href="vendors.html">Vendors</a>
                     <a class="navItem" id="reports" href="vehicles.html">Vehicles</a>
-                    <a class="navItem selected" id="svc" href="svcPlans.html">SVC Plans</a>
-                    <a class="navItem" id="svc" href="svcClaims.html">SVC Claims</a>
+                    <a class="navItem" id="svc" href="svcPlans.html">SVC Plans</a>
+                    <a class="navItem selected" id="svc" href="svcClaims.html">SVC Claims</a>
                     <a class="navItem" id="svc" href="reports.html">Reports</a>
                 </div>
                 <div class="createSVCBtn">
@@ -41,10 +41,19 @@
 
             <div class="svcMainContent">
                 <div class="createSVCDiv">
-
                     <form>
-                        <div class="createForm" id="createForm">
-                            <div class="personalDetails">
+                        <div class="createForm" id="claimCreation">
+                            <div class="checkSvcDiv">
+                                <div class="input-field">
+                                    <input placeholder="Enter SVC Number" id="svcNumber" type="text">
+                                    <label for="svcNumber">Enter SVC Number *</label>
+                                </div>
+                                <div>
+                                    <button class="btn saveBtn checkSvcBtn">Check SVC</button>
+                                </div>
+                            </div>
+
+                            <div class="claimDetails">
                                 <div class="input-field">
                                     <input placeholder="OTP" id="otp" type="text">
                                     <label for="otp">OTP *</label>
@@ -61,13 +70,14 @@
                                     <input placeholder="Days" id="days" type="text">
                                     <label for="days">Days *</label>
                                 </div>
+                                <div class="input-field">
+                                    <input placeholder="Delivery Person" id="deliveryPerson" type="text">
+                                    <label for="days">Delivery Person *</label>
+                                </div>
                                 <div>
                                     <img class="saveImg" src="img/Zupp web_Save and print.png"/>
                                     <button class="btn saveBtn saveClaimBtn">Create Claim</button>
                                 </div>
-                            </div>
-
-                            <div class="addressDetails">
                             </div>
                         </div>
                     </form>

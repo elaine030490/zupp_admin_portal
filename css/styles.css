@@ -715,3 +715,10 @@ input[type=text]:focus{
     width: 70% !important;
     margin-left: -10px !important;
 }
+
+.claimDetails{
+    display: none;
+}
+#claimCreation{
+    margin-top: 5%;
+}

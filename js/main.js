@@ -579,6 +579,14 @@ $('.savePhoneBtn').click(function(){
 	});
 });
 
+//on check svc
+$('.checkSvcBtn').click(function(e){
+	e.preventDefault();
+
+	var svcNumber = $('.svcNumber').val();
+	
+});
+
 //save claim
 $('.saveClaimBtn').click(function(e){
 	e.preventDefault();
@@ -587,8 +595,9 @@ $('.saveClaimBtn').click(function(e){
 	var claim = $('#claim').val();
 	var location = $('#location').val();
 	var days = $('#days').val();
+	var deliveryPerson = $('#deliveryPerson').val();
 
-	var data = {"otp":otp, "typeOfClaim":claim, "location":location, "days":days };
+	var data = {"otp":otp, "typeOfClaim":claim, "location":location, "days":days, "deliveryPerson":deliveryPerson };
 
 	$.ajax({
 		url: baseUrl + 'claim',
@@ -617,7 +626,6 @@ $('.saveClaimBtn').click(function(e){
 $('.createPlanBtn').click(function(){
 	location.href = 'createPlan.html';
 });
-
 
 //on save plan click
 $('.savePlanBtn').click(function(e){
