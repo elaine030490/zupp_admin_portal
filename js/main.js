@@ -583,8 +583,48 @@ $('.savePhoneBtn').click(function(){
 $('.checkSvcBtn').click(function(e){
 	e.preventDefault();
 
-	var svcNumber = $('.svcNumber').val();
-	
+	var svcNumber = $('#svcNumber').val();
+
+	$.ajax({
+		url: baseUrl + 'svc/s/?searchString='+svcNumber,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    /*beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },*/
+	    success: function(result){
+	    	if(result.status == 'success'){
+    			if(result.data.status == 'active'){
+    				var data = {"phoneNumber": result.data.customerPhoneNumber};
+
+    				$.ajax({
+						url: baseUrl + 'claim/o/',
+						type: "POST",
+					    contentType: "application/json",
+					    crossDomain: true,
+					    data: JSON.stringify(data),
+					    beforeSend: function (xhr) {
+					      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+					    },
+					    success: function(result){
+					    	if(result){
+					    		$('.claimDetails').show();
+					    		$('.checkSvcDiv').hide();
+					    	}
+					    },
+					    error: function (jqXHR, textStatus, errorThrown) {
+					    	console.log('error');
+					    }
+					});
+    			}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+
 });
 
 //save claim
