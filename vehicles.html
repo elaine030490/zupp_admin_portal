@@ -61,6 +61,25 @@
                     <a class="btn waves-light waves-effect modal-action modal-close">Cancel</a>
                 </div>
             </div>
+
+            <!--Modal to change vehicle status-->
+            <div id="changeStatusModal" class="modal">
+                <div class="modal-content">
+                  <h5>Change Status of Vehicle</h5>
+                </div>
+                <div class="modal-body">
+                    <select class="statusSelect">
+                        <option value="" disabled selected>Select status</option>
+                        <option value="maintenance">Maintenance</option>
+                        <option value="available">Available</option>
+                        <option value="unavailable">Unavailable</option>
+                    </select>
+
+                    <a class="btn waves-light waves-effect saveStatusBtn">Save</a>
+                    <a class="btn waves-light waves-effect modal-action modal-close">Cancel</a>
+                </div>
+            </div>
+
         </div>
         <!--Import jQuery before materialize.js-->
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -71,6 +90,7 @@
         <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript">
             $('#assignVendorModal').modal();
+            $('#changeStatusModal').modal();
         </script>
     </body>
 </html>

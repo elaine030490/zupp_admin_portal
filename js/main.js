@@ -181,6 +181,41 @@ $('.dashboardMainContent').on('click', '.deleteBtn', function(){
 	};
 });
 
+//on vehicle change status click
+$('.dashboardMainContent').on('click', '.changeStatusBtn', function(){
+	var vehicleId = $(this).attr('id');
+	localStorage.setItem('vehicleId', vehicleId);
+	$('#changeStatusModal').modal('open');
+});
+
+//change status button click
+$('.saveStatusBtn').click(function(){
+	var status = $('.statusSelect').val();
+	var vehicleId = localStorage.getItem('vehicleId');
+
+	var data = {"vehicleId":vehicleId, "status":status};
+
+	$.ajax({
+		url: baseUrl + 'vehicles/s/',
+		type: "PUT",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    data: JSON.stringify(data),
+	    /*beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },*/
+	    success: function(result){
+	    	if(result.status == 'success'){
+    			Materialize.toast('Status chnaged successfully!', 4000);
+    			location.reload();
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
+
 //get details of selected vehicle
 var vehicleId = localStorage.getItem('vehicleId');
 //localStorage.setItem('vehicleId', '');
