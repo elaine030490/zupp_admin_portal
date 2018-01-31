@@ -95,7 +95,7 @@ label {
     align-items: center;
 }
 
-.loginButton, .resetPasswordButton {
+.loginButton, .resetPasswordButton, .savePassword {
     background-color: #FECD2F;
     border-radius: 8px;
     border: 0px;
