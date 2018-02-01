@@ -69,7 +69,7 @@ function formatNewDate(date){
 
 token = localStorage.getItem('token');
 
-var currentPath = window.location.pathname.split('/')[2];
+var currentPath = window.location.pathname.split('/')[1];
 
 //get vehicle list
 $.ajax({
@@ -236,7 +236,7 @@ else if(vehicleId !== '' || vehicleId !== null){
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
 	    },
 	    success: function(result){
-	    	var currentLocation = window.location.pathname.split('/')[2];
+	    	var currentLocation = window.location.pathname.split('/')[1];
 	    	
 	    	if(currentLocation == 'vehicleDetails'){
 	    		if(result.status == 'success'){
