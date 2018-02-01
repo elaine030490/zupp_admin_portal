@@ -1,4 +1,4 @@
-var baseUrl = 'http://ec2-18-221-181-136.us-east-2.compute.amazonaws.com:3000/admin/';
+var baseUrl = 'http://api.zuppbikes.com:3000/admin/';
 var token = '';
 var code = '';
 var user = '';
@@ -67,15 +67,17 @@ function formatNewDate(date){
 	}
 }
 
+token = localStorage.getItem('token');
+
 //get vehicle list
 $.ajax({
 	url: baseUrl + 'vehicles?page=1',
 	type: "GET",
     contentType: "application/json",
     crossDomain: true,
-    /*beforeSend: function (xhr) {
+    beforeSend: function (xhr) {
       xhr.setRequestHeader("Authorization", "Bearer "+ token);
-    },*/
+    },
     success: function(result){
     	if(result.status == 'success'){
     		if(result.data.length == 0){
@@ -126,9 +128,9 @@ $('.tableBody').on('click', '.deleteBtn', function(){
 		type: "DELETE",
 	    contentType: "application/json",
 	    crossDomain: true,
-	    /*beforeSend: function (xhr) {
+	    beforeSend: function (xhr) {
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },*/
+	    },
 	    success: function(result){
 	    	if(result.status == 'success'){
 	    		Materialize.toast('Vehicle deactivated!', 4000);
@@ -165,9 +167,9 @@ $('.dashboardMainContent').on('click', '.deleteBtn', function(){
 			type: "DELETE",
 		    contentType: "application/json",
 		    crossDomain: true,
-		    /*beforeSend: function (xhr) {
+		    beforeSend: function (xhr) {
 		      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-		    },*/
+		    },
 		    success: function(result){
 		    	if(result.status == 'success'){
 		    		Materialize.toast('Vehicle deactivated!', 4000);
@@ -201,9 +203,9 @@ $('.saveStatusBtn').click(function(){
 	    contentType: "application/json",
 	    crossDomain: true,
 	    data: JSON.stringify(data),
-	    /*beforeSend: function (xhr) {
+	    beforeSend: function (xhr) {
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },*/
+	    },
 	    success: function(result){
 	    	if(result.status == 'success'){
     			Materialize.toast('Status chnaged successfully!', 4000);
@@ -227,9 +229,9 @@ else if(vehicleId !== '' || vehicleId !== null){
 		type: "GET",
 	    contentType: "application/json",
 	    crossDomain: true,
-	    /*beforeSend: function (xhr) {
+	    beforeSend: function (xhr) {
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },*/
+	    },
 	    success: function(result){
 	    	var currentLocation = window.location.pathname.split('/')[2];
 	    	
@@ -291,9 +293,9 @@ $('.assignVendorBtn').on('click', function(){
 	    contentType: "application/json",
 	    crossDomain: true,
 	    data: JSON.stringify(data),
-	    /*beforeSend: function (xhr) {
+	    beforeSend: function (xhr) {
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },*/
+	    },
 	    success: function(result){
 	    	if(result.status == 'success'){
     			Materialize.toast('Vendor assigned successfully!', 4000);
@@ -312,9 +314,9 @@ $.ajax({
 	type: "GET",
     contentType: "application/json",
     crossDomain: true,
-    /*beforeSend: function (xhr) {
+    beforeSend: function (xhr) {
       xhr.setRequestHeader("Authorization", "Bearer "+ token);
-    },*/
+    },
     success: function(result){
     	if(result.status == 'success'){
     		if(result.data.length == 0){
@@ -360,9 +362,9 @@ $('.vendorListBody').on('click', '.deleteBtn', function(){
 		type: "DELETE",
 	    contentType: "application/json",
 	    crossDomain: true,
-	    /*beforeSend: function (xhr) {
+	    beforeSend: function (xhr) {
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },*/
+	    },
 	    success: function(result){
 	    	if(result.status == 'success'){
 	    		Materialize.toast('Vendor deactivated!', 4000);
@@ -394,9 +396,9 @@ $('.deleteVendorBtn').click(function(){
 			type: "DELETE",
 		    contentType: "application/json",
 		    crossDomain: true,
-		    /*beforeSend: function (xhr) {
+		    beforeSend: function (xhr) {
 		      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-		    },*/
+		    },
 		    success: function(result){
 		    	if(result.status == 'success'){
 		    		Materialize.toast('Vendor deactivated!', 4000);
@@ -590,9 +592,9 @@ $('.checkSvcBtn').click(function(e){
 		type: "GET",
 	    contentType: "application/json",
 	    crossDomain: true,
-	    /*beforeSend: function (xhr) {
+	    beforeSend: function (xhr) {
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },*/
+	    },
 	    success: function(result){
 	    	if(result.status == 'success'){
     			if(result.data.status == 'active'){
@@ -645,9 +647,9 @@ $('.saveClaimBtn').click(function(e){
 	    contentType: "application/json",
 	    crossDomain: true,
 	    data: JSON.stringify(data),
-	    /*beforeSend: function (xhr) {
+	    beforeSend: function (xhr) {
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },*/
+	    },
 	    success: function(result){
 	    	if(result.status == 'success'){
     			Materialize.toast('Claim created successfully!', 4000);
@@ -684,9 +686,9 @@ $('.savePlanBtn').click(function(e){
 	    contentType: "application/json",
 	    crossDomain: true,
 	    data: JSON.stringify(data),
-	    /*beforeSend: function (xhr) {
+	    beforeSend: function (xhr) {
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },*/
+	    },
 	    success: function(result){
 	    	if(result.status == 'success'){
     			Materialize.toast('SVC Plan created successfully!', 4000);
@@ -707,9 +709,9 @@ $.ajax({
 	type: "GET",
     contentType: "application/json",
     crossDomain: true,
-    /*beforeSend: function (xhr) {
+    beforeSend: function (xhr) {
       xhr.setRequestHeader("Authorization", "Bearer "+ token);
-    },*/
+    },
     success: function(result){
     	if(result.status == 'success'){
     		$.each(result.data, function(key, val){
@@ -737,9 +739,9 @@ $('.goButton').click(function(){
 		type: "GET",
 	    contentType: "application/json",
 	    crossDomain: true,
-	    /*beforeSend: function (xhr) {
+	    beforeSend: function (xhr) {
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },*/
+	    },
 	    success: function(result){
 	    	if(result.status == 'success'){
 	    		$.each(result.data, function(key, val){
@@ -768,9 +770,9 @@ $('.claimListBody').on('click', '.endClaimBtn', function(){
 		type: "POST",
 	    contentType: "application/json",
 	    crossDomain: true,
-	    /*beforeSend: function (xhr) {
+	    beforeSend: function (xhr) {
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },*/
+	    },
 	    success: function(result){
 	    	if(result){
 	    		Materialize.toast('Claim ended successfully!', 4000);
@@ -813,9 +815,9 @@ $('.saveVendorBtn').click(function(e){
 	    contentType: "application/json",
 	    crossDomain: true,
 	    data: JSON.stringify(data),
-	    /*beforeSend: function (xhr) {
+	    beforeSend: function (xhr) {
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },*/
+	    },
 	    success: function(result){
 	    	if(result.status == 'success'){
     			Materialize.toast('Vendor created successfully!', 4000);
@@ -855,9 +857,9 @@ $('.editVendorBtn').click(function(e){
 	    contentType: "application/json",
 	    crossDomain: true,
 	    data: JSON.stringify(data),
-	    /*beforeSend: function (xhr) {
+	    beforeSend: function (xhr) {
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },*/
+	    },
 	    success: function(result){
 	    	if(result.status == 'success'){
     			Materialize.toast('Vendor edited successfully!', 4000);
@@ -915,9 +917,9 @@ $('.saveVehicleBtn').click(function(e){
 	    contentType: "application/json",
 	    crossDomain: true,
 	    data: JSON.stringify(data),
-	    /*beforeSend: function (xhr) {
+	    beforeSend: function (xhr) {
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },*/
+	    },
 	    success: function(result){
 	    	if(result.status == 'success'){
     			Materialize.toast('Vehicle added successfully!', 4000);
@@ -961,9 +963,9 @@ $('.editVehicleBtn').click(function(e){
 	    contentType: "application/json",
 	    crossDomain: true,
 	    data: JSON.stringify(data),
-	    /*beforeSend: function (xhr) {
+	    beforeSend: function (xhr) {
 	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },*/
+	    },
 	    success: function(result){
 	    	if(result.status == 'success'){
     			Materialize.toast('Vehicle edited successfully!', 4000);
