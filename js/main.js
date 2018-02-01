@@ -69,6 +69,8 @@ function formatNewDate(date){
 
 token = localStorage.getItem('token');
 
+var currentPath = window.location.pathname.split('/')[2];
+
 //get vehicle list
 $.ajax({
 	url: baseUrl + 'vehicles?page=1',
@@ -81,7 +83,8 @@ $.ajax({
     success: function(result){
     	if(result.status == 'success'){
     		if(result.data.length == 0){
-    			Materialize.toast('No vehicles found!', 4000);
+    			if(currentPath == 'vehicles')
+    				Materialize.toast('No vehicles found!', 4000);
     		}
     		else{
     			$('.tableBody').empty();
@@ -208,7 +211,7 @@ $('.saveStatusBtn').click(function(){
 	    },
 	    success: function(result){
 	    	if(result.status == 'success'){
-    			Materialize.toast('Status chnaged successfully!', 4000);
+    			Materialize.toast('Status changed successfully!', 4000);
     			location.reload();
 	    	}
 	    },
@@ -320,7 +323,8 @@ $.ajax({
     success: function(result){
     	if(result.status == 'success'){
     		if(result.data.length == 0){
-    			Materialize.toast('No vendors found!', 4000);
+    			if(currentPath == 'vendors')
+    				Materialize.toast('No vendors found!', 4000);
     		}
     		else{
     			$('.vendorListBody').empty();
