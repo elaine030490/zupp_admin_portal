@@ -1,4 +1,4 @@
-var baseUrl = 'http://api.zuppbikes.com:3000/admin/';
+var baseUrl = 'http://api.zuppbikes.com/admin/';
 var token = '';
 var code = '';
 var user = '';
