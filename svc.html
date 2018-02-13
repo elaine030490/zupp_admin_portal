@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Reports</title>
+        <title>Vendors</title>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!-- Import materialize.css -->
@@ -9,6 +9,7 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
         <link type="text/css" rel="stylesheet" href="css/styles.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
         <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
 
         <!--Let browser know website is optimized for mobile-->
@@ -26,12 +27,12 @@
             <div class="sideNavArea">
                 <div></div>
                 <div class="sideNav">
-                    <a class="navItem" href="svc">SVCs</a>
+                    <a class="navItem selected" href="svc">SVCs</a>
                     <a class="navItem" id="vendors" href="vendors">Vendors</a>
                     <a class="navItem" id="vehicles" href="vehicles">Vehicles</a>
                     <a class="navItem" id="svc" href="svcPlans">SVC Plans</a>
                     <a class="navItem" id="svc" href="svcClaims">SVC Claims</a>
-                    <a class="navItem selected" id="reports" href="reports">Reports</a>
+                    <a class="navItem" id="reports" href="reports">Reports</a>
                 </div>
                 <div class="createSVCBtn">
                     <img src="img/Zupp web_FAB.png" class="createClick" alt="Create Vendor" />
@@ -39,58 +40,54 @@
                 </div>
             </div>
             <div class="svcMainContent">
+
                 <div class="svcDiv">
+                    <div class="searchFilterDiv">
+                        <div class="regNoLabel filterDateDiv">Filter by Date</div>
+                        <div class="filterDiv">
+                            <div class="input-group input-daterange">
+                                <input type="text" id="startDate" class="form-control">
+                                <div class="toDiv">to</div>
+                                <input type="text" id="endDate" class="form-control">
+                            </div>
+
+                            <select class="vendorSelect">
+                                <option value="" disabled selected>Select a vendor</option>
+                            </select>
+                        </div>
+
+                        <div class="filterButtons">
+                            <button class="btn filterSvcBtn">Go!</button>
+                            <button class="btn resetBtn">Reset</button>
+                        </div>
+                    </div>
+
                     <div class="rentalTable">
-
-                        <div class="reportsDiv">
-                            <div class="card-panel">
-                                <div class="reportLabel">Renevue Generated</div>
-                                <div class="regNo revenueGenerated"></div>
-                            </div>
-
-                            <div class="card-panel">
-                                <div class="reportLabel">Total SVCs</div>
-                                <div class="regNo totalSVC"></div>
-                            </div>
-
-                            <div class="card-panel">
-                                <div class="reportLabel">Total SVC Claims</div>
-                                <div class="regNo svcClaims"></div>
-                            </div>
-                        </div>
-                        <div class="reportsDiv">
-
-                            <div class="card-panel">
-                                <div class="reportLabel">Total Active SVCs</div>
-                                <div class="regNo totalActiveSVC"></div>
-                            </div>
-
-                            <div class="card-panel">
-                                <div class="reportLabel">Total Expired SVCs</div>
-                                <div class="regNo totalExpiredSVC"></div>
-                            </div>
-
-                            <div class="card-panel">
-                                <div class="reportLabel">SVCs with Premium Plan</div>
-                                <div class="regNo Premium"></div>
-                            </div>
-
-                            <div class="card-panel">
-                                <div class="reportLabel">SVCs with Standard Plan</div>
-                                <div class="regNo Standard"></div>
-                            </div>
-                        </div>
-
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>SVC No</th>
+                                    <th>Customer Name</th>
+                                    <th>Customer Phone Number</th>
+                                    <th>Purchase Date</th>
+                                    <th>Expiry Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="svcListBody">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
         <!--Import jQuery before materialize.js-->
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
-        <script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.min.js"></script>  
         <script type="text/javascript" src="js/main.js"></script>
     </body>
 </html>

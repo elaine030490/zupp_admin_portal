@@ -3,6 +3,16 @@ var token = '';
 var code = '';
 var user = '';
 
+//set datepicker range
+if($('.input-daterange input').length !== 0){
+    $('.input-daterange input').each(function() {
+	    $(this).datepicker({
+	    	format: 'dd/mm/yyyy',
+	    	autoclose: true
+	    });
+	});
+}
+
 //admin login
 $(".loginButton").click(function (e) { 
     e.preventDefault();
@@ -31,7 +41,7 @@ $(".loginButton").click(function (e) {
 	        	if(result.status == 'success'){
 	        		token = result.data;
 	        		localStorage.setItem('token', token);
-	        		window.location.href = './vendors';
+	        		window.location.href = './svc';
 	        	}
 	        },
 	        error: function (jqXHR, textStatus, errorThrown) {
@@ -50,6 +60,15 @@ $('.logoutBtn').click(function(){
 	localStorage.setItem('token', '');
 	location.href = 'index';
 });
+
+function formatDate(date){
+	var initial = date.split(/\//);
+	var newDate = ( [ initial[1], initial[0], initial[2] ].join('/'));
+
+	var formatDate = new Date(newDate);
+	console.log('formatDate', formatDate);
+	return formatDate;
+}
 
 //format date
 function formatNewDate(date){
@@ -70,6 +89,92 @@ function formatNewDate(date){
 token = localStorage.getItem('token');
 
 var currentPath = window.location.pathname.split('/')[1];
+
+//get svc list
+if(currentPath == 'svc'){
+	$.ajax({
+		url: baseUrl + 'svc',
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		$('.svcListBody').empty();
+
+    			$.each(result.data, function(key, val){
+    				$('.svcListBody').append('<tr><td>'+val.token+'</td><td>'+val.customerName+'</td><td>'+val.customerPhoneNumber+'</td><td>'+formatNewDate(val.createdOn)+'</td><td>'+formatNewDate(val.expiryDate)+'</td><td>'+val.status+'</td></tr>');
+    			});
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+}
+
+//get filtered svc list
+$('.filterSvcBtn').click(function(e){
+	e.preventDefault();
+
+	var startDate = formatDate($('#startDate').val());
+	var endDate = formatDate($('#endDate').val());
+	var vendor = $('.vendorSelect').find(":selected").val();
+
+	$.ajax({
+		url: baseUrl + 'svc/?start='+startDate+'&end='+endDate+'&vendorId='+vendor,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		$('.svcListBody').empty();
+
+    			$.each(result.data, function(key, val){
+    				$('.svcListBody').append('<tr><td>'+val.token+'</td><td>'+val.customerName+'</td><td>'+val.customerPhoneNumber+'</td><td>'+formatNewDate(val.createdOn)+'</td><td>'+formatNewDate(val.expiryDate)+'</td><td>'+val.status+'</td></tr>');
+    			});
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	})
+});
+
+//reset button
+$('.resetBtn').click(function(e){
+	e.preventDefault();
+
+	$('#startDate').val('');
+	$('#endDate').val('');
+
+	$.ajax({
+		url: baseUrl + 'svc',
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		$('.svcListBody').empty();
+
+    			$.each(result.data, function(key, val){
+    				$('.svcListBody').append('<tr><td>'+val.token+'</td><td>'+val.customerName+'</td><td>'+val.customerPhoneNumber+'</td><td>'+formatNewDate(val.createdOn)+'</td><td>'+formatNewDate(val.expiryDate)+'</td><td>'+val.status+'</td></tr>');
+    			});
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
 
 //get vehicle list
 if(currentPath == 'vehicles'){
@@ -223,7 +328,7 @@ $('.saveStatusBtn').click(function(){
 	});
 });
 
-if(currentPath == 'editVehicle'){
+if(currentPath == 'editVehicle' || currentPath == 'vehicleDetails'){
 	//get details of selected vehicle
 	var vehicleId = localStorage.getItem('vehicleId');
 	//localStorage.setItem('vehicleId', '');
@@ -239,9 +344,8 @@ if(currentPath == 'editVehicle'){
 		      xhr.setRequestHeader("Authorization", "Bearer "+ token);
 		    },
 		    success: function(result){
-		    	var currentLocation = window.location.pathname.split('/')[1];
 		    	
-		    	if(currentLocation == 'vehicleDetails'){
+		    	if(currentPath == 'vehicleDetails'){
 		    		if(result.status == 'success'){
 			    		$('#image').append('<img src='+result.data.image+'>');
 			    		$('#status').append('<h5 class="vehicleValue">'+result.data.status+'</h5>');
@@ -261,7 +365,7 @@ if(currentPath == 'editVehicle'){
 						$('#permitExpiryDate').append('<h5 class="vehicleValue">'+formatNewDate(result.data.permitExpiry)+'</h5>');
 			    	}
 		    	}
-		    	else if(currentLocation == 'editVehicle'){
+		    	else if(currentPath == 'editVehicle'){
 		    		if(result.status == 'success'){
 		    			$('#brand').val(result.data.brand);
 		    			$('#model').val(result.data.model);
@@ -316,7 +420,7 @@ $('.assignVendorBtn').on('click', function(){
 });
 
 //get vendor list
-if(currentPath == 'vendors'){
+if(currentPath == 'vendors' || currentPath == 'svc'){
 	$.ajax({
 		url: baseUrl + 'vendor?page=1',
 		type: "GET",
@@ -367,24 +471,26 @@ $('.vendorListBody').on('click', '.editBtn', function(){
 $('.vendorListBody').on('click', '.deleteBtn', function(){
 	var vendorId = $(this).attr('id');
 
-	$.ajax({
-		url: baseUrl + 'vendor/'+vendorId,
-		type: "DELETE",
-	    contentType: "application/json",
-	    crossDomain: true,
-	    beforeSend: function (xhr) {
-	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },
-	    success: function(result){
-	    	if(result.status == 'success'){
-	    		Materialize.toast('Vendor deactivated!', 4000);
-	    		location.reload(); 	
-	    	}
-	    },
-	    error: function (jqXHR, textStatus, errorThrown) {
-	    	console.log('error');
-	    }
-	});
+	if(confirm('Are you sure you want to delete this vendor?')){
+		$.ajax({
+			url: baseUrl + 'vendor/'+vendorId,
+			type: "DELETE",
+		    contentType: "application/json",
+		    crossDomain: true,
+		    beforeSend: function (xhr) {
+		      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+		    },
+		    success: function(result){
+		    	if(result.status == 'success'){
+		    		Materialize.toast('Vendor deactivated!', 4000);
+		    		location.reload(); 	
+		    	}
+		    },
+		    error: function (jqXHR, textStatus, errorThrown) {
+		    	console.log('error');
+		    }
+		});
+	}
 });
 
 //edit vendor from vendor details page
@@ -422,7 +528,7 @@ $('.deleteVendorBtn').click(function(){
 	}
 });
 
-if(currentPath == 'editVendor'){
+if(currentPath == 'editVendor' || currentPath == 'vendorDetails'){
 	//get vehicles of single vendor
 	var vendorId = localStorage.getItem('vendorId');
 	//localStorage.setItem('vendorId', '');
@@ -440,8 +546,7 @@ if(currentPath == 'editVendor'){
 		    },
 		    success: function(result){
 		    	if(result.status == 'success'){
-		    		var currentLocation = window.location.pathname.split('/')[2];
-		    		if(currentLocation == 'vendorDetails'){
+		    		if(currentPath == 'vendorDetails'){
 		    			$('#name').append('<h5 class="vendorValue">'+result.data.name+'</h5>');
 						$('#email').append('<h5 class="vendorValue">'+result.data.email+'</h5>');
 						$('#phone').append('<h5 class="vendorValue">'+result.data.phoneNumber+'</h5>');
@@ -477,7 +582,7 @@ if(currentPath == 'editVendor'){
 						    }
 						});
 		    		}
-		    		else if(currentLocation == 'editVendor'){
+		    		else if(currentPath == 'editVendor'){
 		    			$('#vendorName').val(result.data.name);
 						$('#email').val(result.data.email);
 						$('#countryCode').val(result.data.countryCode);
