@@ -146,7 +146,51 @@ $('.filterSvcBtn').click(function(e){
 	})
 });
 
-//reset button
+//download svc list
+$('.downloadBtn').click(function(e){
+	e.preventDefault();
+
+	var startDate = formatDate($('#startDate').val());
+	var endDate = formatDate($('#endDate').val());
+	var vendor = $('.vendorSelect').find(":selected").val();
+
+	if(startDate == 'Invalid Date'){
+		startDate = '';
+	}
+	if(endDate == 'Invalid Date'){
+		endDate = '';
+	}
+
+	$.ajax({
+		url: baseUrl + 'svc/csv?start='+startDate+'&end='+endDate+'&vendorId='+vendor,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		var data = result.data.csv;
+	    		var a = window.document.createElement('a');
+			    a.href = window.URL.createObjectURL(new Blob([data], {type: 'text'}));
+			    a.download = 'SVCList.csv';
+
+			    // Append anchor to body.
+			    document.body.appendChild(a);
+			    a.click();
+
+			    // Remove anchor from body
+			    document.body.removeChild(a);
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
+
+//reset svc filters button
 $('.resetBtn').click(function(e){
 	e.preventDefault();
 
@@ -420,7 +464,7 @@ $('.assignVendorBtn').on('click', function(){
 });
 
 //get vendor list
-if(currentPath == 'vendors' || currentPath == 'svc'){
+if(currentPath == 'vendors' || currentPath == 'svc' || currentPath == 'reports'){
 	$.ajax({
 		url: baseUrl + 'vendor?page=1',
 		type: "GET",
@@ -632,6 +676,44 @@ if(currentPath == 'reports'){
 	    }
 	});
 }
+
+//get filtered svc reports
+$('.filterReportBtn').click(function(e){
+	e.preventDefault();
+
+	var startDate = formatDate($('#startDate').val());
+	var endDate = formatDate($('#endDate').val());
+	var vendor = $('.vendorSelect').find(":selected").val();
+
+	$.ajax({
+		url: baseUrl + 'report/svc?start='+startDate+'&end='+endDate+'&vendorId='+vendor,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		if(result.data.length == 0){
+	    			Materialize.toast('No report found!', 4000);
+	    		}
+	    		else{
+	    			$('.revenueGenerated')[0].innerHTML = result.data.revenueGenerated  + '/-';
+	        		$('.svcClaims')[0].innerHTML = result.data.svcClaims;
+					$('.totalActiveSVC')[0].innerHTML = result.data.totalActiveSVC;        		
+					$('.totalExpiredSVC')[0].innerHTML = result.data.totalExpiredSVC;
+					$('.totalSVC')[0].innerHTML = result.data.totalSVC;
+					$('.Premium')[0].innerHTML = result.data.Premium;
+					$('.Standard')[0].innerHTML = result.data.Standard;
+	    		}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
 
 //get svc plan list
 if(currentPath == 'svcPlans'){

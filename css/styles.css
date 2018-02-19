@@ -738,7 +738,7 @@ input[type=text]:focus{
     margin-left: 25%;
 }
 
-.dateFilterBtn, .filterSvcBtn, .resetBtn{
+.dateFilterBtn, .filterSvcBtn, .resetBtn, .downloadBtn, .filterReportBtn, .resetReportBtn{
     background-color: #FECD2F !important;
     color: black !important;
     border-radius: 0.5em !important;
@@ -763,4 +763,8 @@ input[type=text]:focus{
 }
 .toDiv{
     margin: 20px;
+}
+.downloadBtn{
+    float: right;
+    margin-right: 10px;
 }

@@ -42,6 +42,26 @@
                 <div class="svcDiv">
                     <div class="rentalTable">
 
+                        <div class="searchFilterDiv">
+                            <div class="regNoLabel filterDateDiv">Filter by Date</div>
+                            <div class="filterDiv">
+                                <div class="input-group input-daterange">
+                                    <input type="text" id="startDate" class="form-control">
+                                    <div class="toDiv">to</div>
+                                    <input type="text" id="endDate" class="form-control">
+                                </div>
+
+                                <select class="vendorSelect">
+                                    <option value="" disabled selected>Select a vendor</option>
+                                </select>
+                            </div>
+
+                            <div class="filterButtons">
+                                <button class="btn filterReportBtn">Go!</button>
+                                <button class="btn resetReportBtn">Reset</button>
+                            </div>
+                        </div>
+
                         <div class="reportsDiv">
                             <div class="card-panel">
                                 <div class="reportLabel">Renevue Generated</div>
