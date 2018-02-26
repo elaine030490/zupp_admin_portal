@@ -90,7 +90,7 @@ function formatNewDate(date){
 
 token = localStorage.getItem('token');
 
-var currentPath = window.location.pathname.split('/')[2];
+var currentPath = window.location.pathname.split('/')[1];
 
 function getSvcList(svcPage){
 
