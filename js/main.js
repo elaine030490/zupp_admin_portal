@@ -3,6 +3,8 @@ var token = '';
 var code = '';
 var user = '';
 
+var svcPage = 1;
+
 //set datepicker range
 if($('.input-daterange input').length !== 0){
     $('.input-daterange input').each(function() {
@@ -88,12 +90,23 @@ function formatNewDate(date){
 
 token = localStorage.getItem('token');
 
-var currentPath = window.location.pathname.split('/')[1];
+var currentPath = window.location.pathname.split('/')[2];
 
-//get svc list
-if(currentPath == 'svc'){
+function getSvcList(svcPage){
+
+	var startDate = formatDate($('#startDate').val());
+	var endDate = formatDate($('#endDate').val());
+	var vendor = $('.vendorSelect').find(":selected").val();
+
+	if(startDate == 'Invalid Date'){
+		startDate = '';
+	}
+	if(endDate == 'Invalid Date'){
+		endDate = '';
+	}
+
 	$.ajax({
-		url: baseUrl + 'svc',
+		url: baseUrl + 'svc?page='+svcPage+'&start='+startDate+'&end='+endDate+'&vendorId='+vendor,
 		type: "GET",
 	    contentType: "application/json",
 	    crossDomain: true,
@@ -102,10 +115,25 @@ if(currentPath == 'svc'){
 	    },
 	    success: function(result){
 	    	if(result.status == 'success'){
+	    		if(svcPage == 1){
+					$('.svcPrev').attr('disabled','disabled');
+				}
+				else{
+					$('.svcPrev').attr('disabled', false);
+				}
+
+				if(result.data.length < 10){
+					$('.svcNext').attr('disabled','disabled');
+				}
+				else
+					$('.svcNext').attr('disabled', false);
+
 	    		$('.svcListBody').empty();
 
     			$.each(result.data, function(key, val){
-    				$('.svcListBody').append('<tr><td>'+val.token+'</td><td>'+val.customerName+'</td><td>'+val.customerPhoneNumber+'</td><td>'+formatNewDate(val.createdOn)+'</td><td>'+formatNewDate(val.expiryDate)+'</td><td>'+val.status+'</td></tr>');
+    				var deleteBtn = '<a id='+val._id+' class="btn btn-flat deleteBtn">Delete</a>';
+
+    				$('.svcListBody').append('<tr><td>'+val.token+'</td><td>'+val.customerName+'</td><td>'+val.customerPhoneNumber+'</td><td>'+formatNewDate(val.createdOn)+'</td><td>'+formatNewDate(val.expiryDate)+'</td><td>'+val.status+'</td><td>'+deleteBtn+'</td></tr>');
     			});
 	    	}
 	    },
@@ -115,35 +143,59 @@ if(currentPath == 'svc'){
 	});
 }
 
+//get svc list
+if(currentPath == 'svc'){
+
+	getSvcList(svcPage);
+
+	$('.svcPrev').click(function(e){
+		e.preventDefault();
+		if(svcPage !== 1){
+			svcPage = svcPage - 1;
+			getSvcList(svcPage);
+		}
+	});
+
+	$('.svcNext').click(function(e){
+		e.preventDefault();
+
+		svcPage = svcPage + 1;
+		getSvcList(svcPage);
+	});
+}
+
+//delete svc
+$('.svcListBody').on('click', '.deleteBtn', function(e){
+	e.preventDefault();
+
+	var svcId = $(this).attr('id');
+	if(confirm('Are you sure you want to delete this SVC?')){
+		$.ajax({
+			url: baseUrl + 'svc/'+svcId,
+			type: "DELETE",
+		    contentType: "application/json",
+		    crossDomain: true,
+		    beforeSend: function (xhr) {
+		      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+		    },
+		    success: function(result){
+		    	if(result.status == 'success'){
+		    		Materialize.toast('SVC deleted!', 4000);
+		    		location.reload(); 	
+		    	}
+		    },
+		    error: function (jqXHR, textStatus, errorThrown) {
+		    	console.log('error');
+		    }
+		});
+	}
+});
+
 //get filtered svc list
 $('.filterSvcBtn').click(function(e){
 	e.preventDefault();
 
-	var startDate = formatDate($('#startDate').val());
-	var endDate = formatDate($('#endDate').val());
-	var vendor = $('.vendorSelect').find(":selected").val();
-
-	$.ajax({
-		url: baseUrl + 'svc/?start='+startDate+'&end='+endDate+'&vendorId='+vendor,
-		type: "GET",
-	    contentType: "application/json",
-	    crossDomain: true,
-	    beforeSend: function (xhr) {
-	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },
-	    success: function(result){
-	    	if(result.status == 'success'){
-	    		$('.svcListBody').empty();
-
-    			$.each(result.data, function(key, val){
-    				$('.svcListBody').append('<tr><td>'+val.token+'</td><td>'+val.customerName+'</td><td>'+val.customerPhoneNumber+'</td><td>'+formatNewDate(val.createdOn)+'</td><td>'+formatNewDate(val.expiryDate)+'</td><td>'+val.status+'</td></tr>');
-    			});
-	    	}
-	    },
-	    error: function (jqXHR, textStatus, errorThrown) {
-	    	console.log('error');
-	    }
-	})
+	getSvcList(svcPage);
 });
 
 //download svc list
@@ -752,7 +804,7 @@ $('.planListBody').on('click', '.deleteBtn', function(){
 	var planId = $(this).attr('id');
 
 	if(confirm('Are you sure you want to delete this plan permanently?')){
-		console.log('here');
+
 		$.ajax({
 			url: baseUrl + 'plan/'+planId,
 			type: "DELETE",

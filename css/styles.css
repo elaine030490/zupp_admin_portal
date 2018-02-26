@@ -768,3 +768,10 @@ input[type=text]:focus{
     float: right;
     margin-right: 10px;
 }
+.paginationBtns{
+    margin-right: 20px;
+}
+.pagination{
+    float: right;
+    margin-right: 65px;
+}
