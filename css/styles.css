@@ -472,7 +472,7 @@ select{
 }
 #getPhoneModal{
     width: 30%;
-    height: 30%;
+    height: 35%;
 }
 /* 
 ** SVC Page
@@ -566,7 +566,7 @@ input[type=text]:focus{
 .attachLabel{
     font-size: 18px;
 }
-.saveBtn, .addVehicleBtn, .saveVehicleBtn, .addVendorBtn, .changeVendorBtn, .assignVendorBtn, .changeStatusBtn, .createPlanBtn, .savePlanBtn, .createClaimBtn, .saveStatusBtn, .modal-close, .endClaimBtn{
+.saveBtn, .addVehicleBtn, .saveVehicleBtn, .addVendorBtn, .changeVendorBtn, .assignVendorBtn, .changeStatusBtn, .createPlanBtn, .savePlanBtn, .createClaimBtn, .saveStatusBtn, .modal-close, .endClaimBtn, .savePhoneBtn{
     background-color: #FECD2F !important;
     color: black !important;
     text-transform: none !important;
@@ -576,7 +576,7 @@ input[type=text]:focus{
     margin-right: -5px;
     float: right;
 }
-.addVehicleBtn, .addVendorBtn, .assignVendorBtn, .createPlanBtn, .createClaimBtn, .modal-close, .endClaimBtn, .changeStatusBtn, .saveStatusBtn{
+.addVehicleBtn, .addVendorBtn, .assignVendorBtn, .createPlanBtn, .createClaimBtn, .modal-close, .endClaimBtn, .changeStatusBtn, .saveStatusBtn, .savePhoneBtn{
     float: none;
 }
 .addVendorBtn, .changeVendorBtn, .endClaimBtn, .changeStatusBtn{

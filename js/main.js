@@ -516,7 +516,7 @@ $('.assignVendorBtn').on('click', function(){
 });
 
 //get vendor list
-if(currentPath == 'vendors' || currentPath == 'svc' || currentPath == 'reports'){
+if(currentPath == 'vendors' || currentPath == 'svc' || currentPath == 'reports' || currentPath == 'vehicles'){
 	$.ajax({
 		url: baseUrl + 'vendor?page=1',
 		type: "GET",
