@@ -300,7 +300,7 @@ if(currentPath == 'vehicles'){
 	    				var delBtn = '<a id='+val.id+' class="btn btn-flat deleteBtn">Delete</a>';
 	    				var changeStatus = '<a id='+val.id+' class="btn waves-effect changeStatusBtn">Change Status</a>';
 
-		        		$('.dashboardMainContent').append('<div class="garageCard"><img src='+val.image+' alt="Bike"><div class="cardText"><div class="gridRow1"><div class="brandName">'+val.brand+' '+val.model+'</div><div class="regNo">'+val.registrationNumber+'</div></div><div class="gridRow2"><label class="cardLabel">Insurance Valid Till</label><div class="insuranceDate">'+formatNewDate(val.insuranceExpiry)+'</div></div><div class="gridRow4"><label class="cardLabel">Last Serviced On</label><div class="serviceDate">'+formatNewDate(val.lastServiceDate)+'</div></div><div class="gridRow5"><label class="cardLabel">Vendor</label><div class="currentStatus">'+val.vendorId+'</div></div><div class="gridRow5"><label class="cardLabel">Status</label><div class="currentStatus">'+val.status+'</div></div></div><div>'+changeStatus+''+addVendorBtn+'</div><div class="cardBtns">'+editBtn+''+delBtn+'</div></div>');
+		        		$('.dashboardMainContent').append('<div class="garageCard"><img src='+val.image+' alt="Bike"><div class="cardText"><div class="gridRow1"><div class="brandName">'+val.brand+' '+val.model+'</div><div class="regNo">'+val.registrationNumber+'</div></div><div class="gridRow2"><label class="cardLabel">Insurance Valid Till</label><div class="insuranceDate">'+formatNewDate(val.insuranceExpiry)+'</div></div><div class="gridRow4"><label class="cardLabel">Last Serviced On</label><div class="serviceDate">'+formatNewDate(val.lastServiceDate)+'</div></div><div class="gridRow5"><label class="cardLabel">Vendor</label><div class="currentStatus">'+val.vendorId.name+'</div></div><div class="gridRow5"><label class="cardLabel">Status</label><div class="currentStatus">'+val.status+'</div></div></div><div>'+changeStatus+''+addVendorBtn+'</div><div class="cardBtns">'+editBtn+''+delBtn+'</div></div>');
 	    			});
 	    		}
 	    	}
@@ -327,10 +327,10 @@ $('.dashboardMainContent').on('click', '.addVendorBtn', function(){
 
 //on vehicle delete click
 $('.tableBody').on('click', '.deleteBtn', function(){
-	var vendorId = $(this).attr('id');
+	var vehicleId = $(this).attr('id');
 
 	$.ajax({
-		url: baseUrl + 'vehicle/'+vendorId,
+		url: baseUrl + 'vehicle/'+vehicleId,
 		type: "DELETE",
 	    contentType: "application/json",
 	    crossDomain: true,
