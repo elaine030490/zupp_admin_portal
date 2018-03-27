@@ -90,7 +90,7 @@ function formatNewDate(date){
 
 token = localStorage.getItem('token');
 
-var currentPath = window.location.pathname.split('/')[1];
+var currentPath = window.location.pathname.split('/')[2];
 
 function getSvcList(svcPage){
 
@@ -926,7 +926,9 @@ $('.savePhoneBtn').click(function(){
 	    	}
 	    },
 	    error: function (jqXHR, textStatus, errorThrown) {
-	    	console.log('error');
+	    	if(jqXHR.status == 500){
+        		Materialize.toast(jqXHR.responseJSON.message + ' Please make sure you have entered the correct mobile number.', 5000);
+        	}
 	    }
 	});
 });
