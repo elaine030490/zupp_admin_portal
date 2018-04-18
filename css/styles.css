@@ -203,7 +203,7 @@ input{
 .sideNav {
     border-right: 1px solid rgb(197, 197, 197);
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     align-items: center;
     justify-items: center;
 }
@@ -738,7 +738,7 @@ input[type=text]:focus{
     margin-left: 25%;
 }
 
-.dateFilterBtn, .filterSvcBtn, .resetBtn, .downloadBtn, .filterReportBtn, .resetReportBtn{
+.dateFilterBtn, .filterSvcBtn, .resetBtn, .downloadBtn, .filterReportBtn, .resetReportBtn, .filterVehicleReportBtn, .resetVehicleReportBtn{
     background-color: #FECD2F !important;
     color: black !important;
     border-radius: 0.5em !important;
@@ -774,4 +774,48 @@ input[type=text]:focus{
 .pagination{
     float: right;
     margin-right: 65px;
+}
+
+.reportModal, .cardsDiv{
+    display: inline-flex;
+}
+.custValue{
+    font-weight: bold;
+}
+.reportDiv p{
+    margin-bottom: 5px !important;
+}
+.custReportCard{
+    width: 30%;
+    margin-left: 10px !important;
+}
+#customerReportModal, #outletReportModal, #vehicleReportModal{
+    max-height: 50% !important;
+    width: 50% !important;
+}
+.cardsDiv{
+    margin-top: 20px;
+}
+.collapsible-header{
+    font-size: 20px;
+}
+.collapsible{
+    margin-bottom: 30px !important;
+}
+.activeRideError, .completedRideError{
+    display: none;
+}
+.invoiceBtn{
+    padding: 5px 10px !important;
+}
+.rideDiv{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.compRidePrev, .compRideNext{
+    background-color: #FECD2F !important;
+    color: #333 !important;
+}
+.activePage, .completedPage{
+    display: none;
 }

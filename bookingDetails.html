@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Vendors</title>
+        <title>SVC Plans</title>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!-- Import materialize.css -->
@@ -27,12 +27,12 @@
                 <div></div>
                 <div class="sideNav">
                     <a class="navItem" href="svc">SVCs</a>
-                    <a class="navItem selected" id="vendors" href="vendors">Vendors</a>
+                    <a class="navItem" id="vendors" href="vendors">Vendors</a>
                     <a class="navItem" id="vehicles" href="vehicles">Vehicles</a>
                     <a class="navItem" id="svc" href="svcPlans">SVC Plans</a>
                     <a class="navItem" id="svc" href="svcClaims">SVC Claims</a>
                     <a class="navItem" id="reports" href="reports">Reports</a>
-                    <a class="navItem" id="bookingDetails" href="bookingDetails">Booking Details</a>
+                    <a class="navItem selected" id="bookingDetails" href="bookingDetails">Booking Details</a>
                 </div>
                 <div class="createSVCBtn">
                     <img src="img/Zupp web_FAB.png" class="createClick" alt="Create Vendor" />
@@ -40,38 +40,66 @@
                 </div>
             </div>
             <div class="svcMainContent">
-                <div class="svcDiv">
-                    <div class="rentalTable">
-                        <table class="table">
+                <h3>Active Rides</h3>
+                <div class="activeRides">
+                    <h4 class="activeRideError">No active rides!</h4>
+                    <table class="table activeRidesTable">
+                        <thead>
+                            <tr>
+                                <th>Customer Name</th>
+                                <th>Customer Contact</th>
+                                <th>Vendor</th>
+                                <th>Date</th>
+                                <th>Expected Return Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="activeRidesBody">
+                        </tbody>
+                    </table>
+
+                    <div class="pagination activePage">
+                        <button id="activeRidePrev" class="btn paginationBtns activeRidePrev">Previous</button>
+                        <button id="activeRideNext" class="btn paginationBtns activeRideNext">Next</button>
+                    </div>
+                </div>
+
+                <div class="rideDiv">
+                    <h3>Completed Rides</h3>
+                    <div class="completedRides">
+                        <h4 class="completedRideError">No completed rides!</h4>
+                        <table class="table completedRidesTable">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Dealership Type</th>
-                                    <th>Location</th>
-                                    <th>email</th>
-                                    <th>Phone Number</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    <th>Customer Name</th>
+                                    <th>Customer Contact</th>
+                                    <th>Vendor</th>
+                                    <th>Date</th>
+                                    <th>Expected Return Date</th>
+                                    <th>Actual Return Date</th>
+                                    <th>Revenue</th>
+                                    <th>Tax</th>
+                                    <th>Invoice</th>
                                 </tr>
                             </thead>
-                            <tbody class="vendorListBody">
+                            <tbody class="completedRidesBody">
                             </tbody>
                         </table>
 
-                        <div class="pagination">
-                            <button class="btn paginationBtns vendorPrev">Previous</button>
-                            <button class="btn paginationBtns vendorNext">Next</button>
+                        <div class="pagination completedPage">
+                            <button id="compRidePrev" class="btn paginationBtns compRidePrev">Previous</button>
+                            <button id="compRideNext" class="btn paginationBtns compRideNext">Next</button>
                         </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
         <!--Import jQuery before materialize.js-->
-        <!--Import jQuery before materialize.js-->
-        <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
         <script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
     </body>

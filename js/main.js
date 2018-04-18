@@ -1,9 +1,12 @@
 var baseUrl = 'http://api.zuppbikes.com/admin/';
+//var baseUrl = 'http://ec2-18-221-181-136.us-east-2.compute.amazonaws.com:3000/admin/';
 var token = '';
 var code = '';
 var user = '';
 
 var svcPage = 1;
+var activeRidesPage = 1;
+var completedRidesPage = 1;
 
 //set datepicker range
 if($('.input-daterange input').length !== 0){
@@ -64,12 +67,13 @@ $('.logoutBtn').click(function(){
 });
 
 function formatDate(date){
-	var initial = date.split(/\//);
-	var newDate = ( [ initial[1], initial[0], initial[2] ].join('/'));
+	if(date !== undefined){
+		var initial = date.split(/\//);
+		var newDate = ( [ initial[1], initial[0], initial[2] ].join('/'));
 
-	var formatDate = new Date(newDate);
-	console.log('formatDate', formatDate);
-	return formatDate;
+		var formatDate = new Date(newDate);
+		return formatDate;
+	}
 }
 
 //format date
@@ -86,6 +90,12 @@ function formatNewDate(date){
 	else{
 		return '';
 	}
+}
+
+//get total tax
+function getTax(sgst, cgst){
+	var tax = sgst + cgst;
+	return tax;
 }
 
 token = localStorage.getItem('token');
@@ -240,6 +250,52 @@ $('.downloadBtn').click(function(e){
 	    	console.log('error');
 	    }
 	});
+});
+
+//reset report filter
+$('.resetReportBtn').click(function(e){
+	e.preventDefault();
+
+	$('#startDate').val('');
+	$('#endDate').val('');	
+	$('.vendorSelect').val('');
+
+	$.ajax({
+		url: baseUrl + 'report/svc?start='+'&end=',
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		if(result.data.length == 0){
+	    			Materialize.toast('No report found!', 4000);
+	    		}
+	    		else{
+	    			$('.revenueGenerated')[0].innerHTML = result.data.revenueGenerated  + '/-';
+	        		$('.svcClaims')[0].innerHTML = result.data.svcClaims;
+					$('.totalActiveSVC')[0].innerHTML = result.data.totalActiveSVC;        		
+					$('.totalExpiredSVC')[0].innerHTML = result.data.totalExpiredSVC;
+					$('.totalSVC')[0].innerHTML = result.data.totalSVC;
+					$('.Premium')[0].innerHTML = result.data.Premium;
+					$('.Standard')[0].innerHTML = result.data.Standard;
+	    		}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
+
+//reset vehicle report date filters
+$('.resetVehicleReportBtn').click(function(e){
+	e.preventDefault();
+
+	$('#vehicleStartDate').val('');
+	$('#vehicleEndDate').val('');
 });
 
 //reset svc filters button
@@ -727,7 +783,228 @@ if(currentPath == 'reports'){
 	    	console.log('error');
 	    }
 	});
+
+	//customer reports
+	$.ajax({
+		url: baseUrl + 'customer',
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		if(result.data.length == 0){
+	    			Materialize.toast('No report found!', 4000);
+	    		}
+	    		else{
+	    			$('.customerReportBody').empty();
+
+	    			$.each(result.data, function(key, val){
+	    				var reportBtn = '<a id='+val._id+' class="btn btn-flat custReportBtn deleteBtn">View</a>';
+	    				$('.customerReportBody').append('<tr><td>'+val.token+'</td><td>'+val.name+'</td><td>'+val.email+'</td><td>'+reportBtn+'</td></tr>');
+	    			});
+	    		}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+
+	//outlet reports
+	$.ajax({
+		url: baseUrl + 'vendor',
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		if(result.data.length == 0){
+	    			Materialize.toast('No report found!', 4000);
+	    		}
+	    		else{
+	    			$('.outletReportBody').empty();
+
+	    			$.each(result.data, function(key, val){
+	    				var reportBtn = '<a id='+val.id+' class="btn btn-flat outletReportBtn deleteBtn">View</a>';
+	    				$('.outletReportBody').append('<tr><td>'+val.token+'</td><td>'+val.name+'</td><td>'+val.email+'</td><td>'+reportBtn+'</td></tr>');
+	    			});
+	    		}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+
+	//vehicle reports
+	$.ajax({
+		url: baseUrl + 'vehicles',
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		if(result.data.length == 0){
+	    			Materialize.toast('No report found!', 4000);
+	    		}
+	    		else{
+	    			$('.vehicleReportBody').empty();
+
+	    			$.each(result.data, function(key, val){
+	    				var reportBtn = '<a id='+val.id+' class="btn btn-flat vehicleReportBtn deleteBtn">View</a>';
+	    				$('.vehicleReportBody').append('<tr><td>'+val.registrationNumber+'</td><td>'+val.brand+' '+val.model+'</td><td>'+reportBtn+'</td></tr>');
+
+	    				$('.vehicleSelect').append('<option value='+val.id+'>'+val.brand+' '+val.model+'</option>');
+	    			});
+	    		}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
 }
+
+//get individual customer report
+$('.customerReportBody').on('click', '.custReportBtn', function(){
+	var customerId = $(this).attr('id');
+	
+	$.ajax({
+		url: baseUrl + 'customer/'+customerId,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		if(result.data.length == 0){
+	    			Materialize.toast('No report found!', 4000);
+	    		}
+	    		else{
+	    			$('#customerReportModal').modal('open');
+					$('#custToken').html(result.data.token);
+					$('#custName').html(result.data.name);	
+					$('.custRevenue')[0].innerHTML = (Math.round(result.data.revenueGenerated * 100)/100);
+					$('.custBookings')[0].innerHTML = result.data.totalBookings;
+	    		}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
+
+//get individual outlet report
+$('.outletReportBody').on('click', '.outletReportBtn', function(){
+	var vendorId = $(this).attr('id');
+	
+	$.ajax({
+		url: baseUrl + 'vendor/'+vendorId,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		if(result.data.length == 0){
+	    			Materialize.toast('No report found!', 4000);
+	    		}
+	    		else{
+	    			$('#outletReportModal').modal('open');
+					$('#vendorToken').html(result.data.token);
+					$('#vendorName').html(result.data.name);	
+					$('.vendorRevenue')[0].innerHTML = (Math.round(result.data.revenueGenerated * 100)/100);
+					$('.vendorBookings')[0].innerHTML = result.data.totalBookings;
+	    		}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
+
+//get individual vehicle report
+$('.vehicleReportBody').on('click', '.vehicleReportBtn', function(){
+	var vehicleId = $(this).attr('id');
+	
+	$.ajax({
+		url: baseUrl + 'vehicle/'+vehicleId,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		if(result.data.length == 0){
+	    			Materialize.toast('No report found!', 4000);
+	    		}
+	    		else{
+	    			$('#vehicleReportModal').modal('open');
+					$('#vehicleReg').html(result.data.registrationNumber);
+					$('#vehicleModel').html(result.data.brand + ' ' + result.data.model);	
+					$('.vehicleRevenue')[0].innerHTML = (Math.round(result.data.revenueGenerated * 100)/100);
+					$('.vehicleBookings')[0].innerHTML = result.data.totalBookings;
+	    		}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
+
+//get filtered individual vehicle reports
+$('.filterVehicleReportBtn').click(function(e){
+	e.preventDefault();
+
+	var startDate = formatDate($('#vehicleStartDate').val());
+	var endDate = formatDate($('#vehicleEndDate').val());
+	var vehicle = $('.vehicleSelect').find(":selected").val();
+
+	$.ajax({
+		url: baseUrl + 'vehicle/'+vehicle+'?start='+startDate+'&end='+endDate,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		if(result.data.length == 0){
+	    			Materialize.toast('No report found!', 4000);
+	    		}
+	    		else{
+	    			$('#vehicleReportModal').modal('open');
+					$('#vehicleReg').html(result.data.registrationNumber);
+					$('#vehicleModel').html(result.data.brand + ' ' + result.data.model);	
+					$('.vehicleRevenue')[0].innerHTML = (Math.round(result.data.revenueGenerated * 100)/100);
+					$('.vehicleBookings')[0].innerHTML = result.data.totalBookings;
+	    		}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
 
 //get filtered svc reports
 $('.filterReportBtn').click(function(e){
@@ -1235,15 +1512,17 @@ $('.addVehicleBtn').click(function(){
 });
 
 //datepicker options
-$('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15, // Creates a dropdown of 15 years to control year,
-    today: 'Today',
-    clear: 'Clear',
-    close: 'Ok',
-    closeOnSelect: true, // Close upon selecting a date,
-    format: 'mm/dd/yyyy'
-});
+if(currentPath !== 'invoice'){
+	$('.datepicker').pickadate({
+	    selectMonths: true, // Creates a dropdown to control month
+	    selectYears: 15, // Creates a dropdown of 15 years to control year,
+	    today: 'Today',
+	    clear: 'Clear',
+	    close: 'Ok',
+	    closeOnSelect: true, // Close upon selecting a date,
+	    format: 'mm/dd/yyyy'
+	});
+}
 
 //on vehicle save click
 $('.saveVehicleBtn').click(function(e){
@@ -1334,3 +1613,156 @@ $('.editVehicleBtn').click(function(e){
 	    }
 	});
 });
+
+//get ride details
+if(currentPath == 'invoice'){
+	var rideId = localStorage.getItem('rideId');
+
+	$.ajax({
+		url: baseUrl + 'booking/'+rideId,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		var details = result.data[0];
+
+	    		$('.invoiceNo')[0].innerHTML = details.invoiceId;
+	    		$('.custName')[0].innerHTML = details.customerName;
+	    		$('.custMobile')[0].innerHTML = details.customerPhoneNumber;
+	    		$('.startDate')[0].innerHTML = formatNewDate(details.timeOfRent);
+	    		$('.endDate')[0].innerHTML = formatNewDate(details.actualTimeOfReturn);
+
+	    		$('.sgst')[0].innerHTML = details.sgst;
+	    		$('.cgst')[0].innerHTML = details.cgst;
+	    		$('.total')[0].innerHTML = details.finalBill;
+
+	    		$.each(details.slots, function(key, val){
+	    			var index = key+1;
+	    			$('.invoiceTable').append('<tr><td align="center" class="serial">'+index+'</td><td align="center" class="date">'+val.date+'</td><td align="center" class="charge">'+val.type+'</td><td align="right" class="amount">'+val.amount+'</td></tr>');
+	    		});
+
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+}
+
+//function to get active ride details
+function getActiveRideDetails(activePage){
+	//get active rides
+	$.ajax({
+		url: baseUrl + 'rides/a?page='+activePage,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+
+	    		if(result.data.length == 0){
+	    			$('.activeRideError')[0].style.display = 'block';
+	    			$('.activeRidesTable')[0].style.display = 'none';
+	    		}
+	    		else{
+	    			$('.activePage')[0].style.display = 'block';
+	    			$.each(result.data, function(key, val){
+		    			$('.activeRidesBody').append('<tr><td>'+val.customerName+'</td><td>'+val.customerPhoneNumber+'</td><td>'+val.vendorId.name+'</td><td>'+formatNewDate(val.timeOfRent)+'</td><td>'+formatNewDate(val.expectedTimeOfReturn)+'</td></tr>');
+		    		});
+	    		}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+}
+
+//function to get active ride details
+function getCompletedRideDetails(completedPage){
+	//get completed rides
+	$.ajax({
+		url: baseUrl + 'rides/c?page='+completedPage,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+
+	    		if(result.data.length == 0){
+	    			$('.completedRideError')[0].style.display = 'block';
+	    			$('.completedRidesTable')[0].style.display = 'none';
+	    		}
+	    		else{
+	    			$('.completedRidesBody').empty();
+	    			$('.completedPage')[0].style.display = 'block';
+
+		    		$.each(result.data, function(key, val){
+
+		    			var invoice = '<a id='+val._id+' class="btn btn-flat invoiceBtn editBtn">Invoice</a>';
+
+		    			$('.completedRidesBody').append('<tr><td>'+val.customerName+'</td><td>'+val.customerPhoneNumber+'</td>><td>'+val.vendorId.name+'</td><td>'+formatNewDate(val.timeOfRent)+'</td><td>'+formatNewDate(val.expectedTimeOfReturn)+'</td><td>'+formatNewDate(val.actualTimeOfReturn)+'</td><td>'+val.taxableTotal+'</td><td>'+getTax(val.cgst,val.sgst)+'</td><td>'+invoice+'</td></tr>');
+		    		});
+	    		}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+}
+
+//booking details
+if(currentPath == 'bookingDetails'){
+	//get booking details
+	getActiveRideDetails(activeRidesPage);
+	getCompletedRideDetails(completedRidesPage);
+
+	$('.compRidePrev').click(function(e){
+		e.preventDefault();
+		if(completedRidesPage !== 1){
+			completedRidesPage = completedRidesPage - 1;
+			getCompletedRideDetails(completedRidesPage);
+		}
+	});
+
+	$('.compRideNext').click(function(e){
+		e.preventDefault();
+		completedRidesPage = completedRidesPage + 1;
+		getCompletedRideDetails(completedRidesPage);
+	});
+
+	$('.activeRidePrev').click(function(e){
+		e.preventDefault();
+		if(activeRidesPage !== 1){
+			activeRidesPage = activeRidesPage - 1;
+			getActiveRideDetails(activeRidesPage);
+		}
+	});
+
+	$('.activeRideNext').click(function(e){
+		e.preventDefault();
+		activeRidesPage = activeRidesPage + 1;
+		getActiveRideDetails(activeRidesPage);
+	});
+
+	//on invoice download click
+	$('.completedRidesBody').on('click','.invoiceBtn', function(e){
+		e.preventDefault();
+
+		var rideId = $(this).attr('id');
+		localStorage.setItem('rideId', rideId);
+
+		location.href = 'invoice.html';
+	});
+}

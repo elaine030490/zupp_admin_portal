@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>SVC Registration Form</title>
+  
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto+Condensed'>
+  <style type="text/css">
+    body {
+      padding: 0;
+      margin: 0;
+      display: -webkit-box;
+      display: -moz-box;
+      display: box;
+      display: -webkit-flex;
+      display: -moz-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -moz-box-pack: center;
+      box-pack: center;
+      -webkit-justify-content: center;
+      -moz-justify-content: center;
+      -ms-justify-content: center;
+      -o-justify-content: center;
+      justify-content: center;
+      -ms-flex-pack: center;
+      -webkit-box-align: start;
+      -moz-box-align: start;
+      box-align: start;
+      -webkit-align-items: flex-start;
+      -moz-align-items: flex-start;
+      -ms-align-items: flex-start;
+      -o-align-items: flex-start;
+      align-items: flex-start;
+      -ms-flex-align: start;
+      font-family: "Roboto Condensed", sans-serif;
+    }
+    @media (min-height: 580px) {
+      body {
+        -webkit-box-align: center;
+        -moz-box-align: center;
+        box-align: center;
+        -webkit-align-items: center;
+        -moz-align-items: center;
+        -ms-align-items: center;
+        -o-align-items: center;
+        align-items: center;
+        -ms-flex-align: center;
+      }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1000px;
+      padding-right: 20px;
+      padding-left: 20px;
+    }
+
+    .svc {
+      margin: 20px 0;
+      padding: 20px;
+    }
+    .svc header {
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    .svc header .svcNo {
+      font-size: 24px;
+    }
+    .svc main {
+      border: 1px dashed #b7bcc3;
+      border-left-width: 0px;
+      border-right-width: 0px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+    .svc table {
+      width: 100%;
+    }
+    .svc table td {
+      padding: 10px;
+    }
+    .svc table td.label {
+      color: gray;
+    }
+    .svc .sign {
+      padding-top: 80px;
+    }
+    .svc footer {
+      margin-top: 30px;
+      font-size: 10px;
+      color: #b7bcc3;
+    }
+    .startDate, .endDate{
+      margin-left: 5px;
+    }
+    .custDetails{
+      margin-top: 10px;
+    }
+  </style>
+  </head>
+
+<body>
+
+  <div class="container">
+    <div class="svc">
+      <header>
+        <center>
+          <img src="http://ec2-18-221-181-136.us-east-2.compute.amazonaws.com/img/Zupp%20web_Logo.png" alt="ZUPP"/><br/><br/>
+          <span class="svcNo"><strong>Invoice No. - <span class="invoiceNo"></span></strong></span><br/>
+          <div class="custDetails"><span>Customer Name - </span><span class="custName"></span><br/></div>
+          <div class="custDetails"><span>Customer Mobile - </span><span class="custMobile"></span></div>
+        <center>
+          <table>
+            <tr>
+              <td>Start Date -<span class="startDate"></span>
+              </td>
+              <td align="right">Return Date -<span class="endDate"></span>
+              </td>
+            </tr>
+          </table>
+      </header>
+
+      <main>
+        <table class="invoiceTable">
+          <tr>
+            <th class="label">#</th>
+            <th class="label">Date</th>
+            <th class="label">Item</th>
+            <th class="label" align="right">Amount</th>
+          </tr>
+        </table>
+      </main>
+          <table class="totals">
+            <tr>
+              <td align="center"></td>
+              <td align="left"></td>
+              <td align="right">SGST @ 9%</td>
+              <td align="right" class="sgst"></td>
+            </tr>
+            <tr>
+              <td align="center"></td>
+              <td align="left"></td>
+              <td align="right">CGST @ 9%</td>
+              <td align="right" class="cgst"></td>
+            </tr>
+            <tr>
+              <td align="center"></td>
+              <td align="left"></td>
+              <td align="right">Total</td>
+              <td align="right" class="total"></td>
+            </tr>
+        </table>
+
+      <footer>
+        <center>
+          <div>info@zuppbikes.com</div>
+          <div>+91 95555 66666</div><br/>
+          <div>&copy; Zupp Bikes Pvt. Ltd. 2018</div>
+        </center>
+      </footer>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+
+</html>

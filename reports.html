@@ -32,12 +32,14 @@
                     <a class="navItem" id="svc" href="svcPlans">SVC Plans</a>
                     <a class="navItem" id="svc" href="svcClaims">SVC Claims</a>
                     <a class="navItem selected" id="reports" href="reports">Reports</a>
+                    <a class="navItem" id="bookingDetails" href="bookingDetails">Booking Details</a>
                 </div>
                 <div class="createSVCBtn">
                     <img src="img/Zupp web_FAB.png" class="createClick" alt="Create Vendor" />
                     <p class="createText">Create Vendor</p>
                 </div>
             </div>
+            
             <div class="svcMainContent">
                 <div class="svcDiv">
                     <div class="rentalTable">
@@ -64,7 +66,7 @@
 
                         <div class="reportsDiv">
                             <div class="card-panel">
-                                <div class="reportLabel">Renevue Generated</div>
+                                <div class="reportLabel">Revenue Generated</div>
                                 <div class="regNo revenueGenerated"></div>
                             </div>
 
@@ -101,9 +103,202 @@
                             </div>
                         </div>
 
+                        <hr />
+
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header">Customer Reports</div>
+                                <div class="collapsible-body">
+                                    <div class="customerReportTable">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Customer Token</th>
+                                                    <th>Customer Name</th>
+                                                    <th>email</th>
+                                                    <th>View Report</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="customerReportBody">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="collapsible-header">Vendor Reports</div>
+                                <div class="collapsible-body">
+                                    <div class="outletReportTable">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vendor Token</th>
+                                                    <th>Vendor Name</th>
+                                                    <th>email</th>
+                                                    <th>View Report</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="outletReportBody">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="collapsible-header">Vehicle Reports</div>
+                                <div class="collapsible-body">
+                                    <div class="vehicleReportTable">
+
+                                        <div class="searchFilterDiv">
+                                            <div class="regNoLabel filterDateDiv">Filter by Date</div>
+                                            <div class="filterDiv">
+                                                <div class="input-group input-daterange">
+                                                    <input type="text" id="vehicleStartDate" class="form-control">
+                                                    <div class="toDiv">to</div>
+                                                    <input type="text" id="vehicleEndDate" class="form-control">
+                                                </div>
+
+                                                <select class="vehicleSelect">
+                                                    <option value="" disabled selected>Select a vehicle</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="filterButtons">
+                                                <button class="btn filterVehicleReportBtn">Get Report</button>
+                                                <button class="btn resetVehicleReportBtn">Reset</button>
+                                            </div>
+                                        </div>
+
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle Registration</th>
+                                                    <th>Vehicle Name</th>
+                                                    <th>View Report</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="vehicleReportBody">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
                     </div>
                 </div>
             </div>
+
+            <!--Modal to show customer report -->
+            <div id="customerReportModal" class="modal">
+                <div class="modal-content">
+                  <h5>Customer Report</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="reportModal col s12">
+                        <div class="reportDiv col s6">
+                            <p>Customer Token</p>
+                            <h5 class="custValue" id="custToken"></h5>
+                        </div>
+
+                        <div class="reportDiv col s6">
+                            <p>Customer Name</p>
+                            <h5 class="custValue" id="custName"></h5>
+                        </div>
+                    </div>
+
+                    <div class="cardsDiv col s12">
+                        <div class="card-panel custReportCard col s6">
+                            <div class="reportLabel">Revenue Generated</div>
+                            <div class="regNo custRevenue"></div>
+                        </div>
+
+                        <div class="card-panel custReportCard col s6">
+                            <div class="reportLabel">Total Bookings</div>
+                            <div class="regNo custBookings"></div>
+                        </div>
+                    </div>
+
+                    <div class="right-align">
+                        <a class="btn waves-light waves-effect modal-action modal-close">Cancel</a>
+                    </div>
+                </div>
+            </div>
+
+            <!--Modal to show outlet report -->
+            <div id="outletReportModal" class="modal">
+                <div class="modal-content">
+                  <h5>Outlet Report</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="reportModal col s12">
+                        <div class="reportDiv col s6">
+                            <p>Vendor Token</p>
+                            <h5 class="custValue" id="vendorToken"></h5>
+                        </div>
+
+                        <div class="reportDiv col s6">
+                            <p>Vendor Name</p>
+                            <h5 class="custValue" id="vendorName"></h5>
+                        </div>
+                    </div>
+
+                    <div class="cardsDiv col s12">
+                        <div class="card-panel custReportCard col s6">
+                            <div class="reportLabel">Revenue Generated</div>
+                            <div class="regNo vendorRevenue"></div>
+                        </div>
+
+                        <div class="card-panel custReportCard col s6">
+                            <div class="reportLabel">Total Bookings</div>
+                            <div class="regNo vendorBookings"></div>
+                        </div>
+                    </div>
+
+                    <div class="right-align">
+                        <a class="btn waves-light waves-effect modal-action modal-close">Cancel</a>
+                    </div>
+                </div>
+            </div>
+
+            <!--Modal to show outlet report -->
+            <div id="vehicleReportModal" class="modal">
+                <div class="modal-content">
+                  <h5>Vehicle Report</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="reportModal col s12">
+                        <div class="reportDiv col s6">
+                            <p>Vehicle Registration</p>
+                            <h5 class="custValue" id="vehicleReg"></h5>
+                        </div>
+
+                        <div class="reportDiv col s6">
+                            <p>Vehicle Model</p>
+                            <h5 class="custValue" id="vehicleModel"></h5>
+                        </div>
+                    </div>
+
+                    <div class="cardsDiv col s12">
+                        <div class="card-panel custReportCard col s6">
+                            <div class="reportLabel">Revenue Generated</div>
+                            <div class="regNo vehicleRevenue"></div>
+                        </div>
+
+                        <div class="card-panel custReportCard col s6">
+                            <div class="reportLabel">Total Bookings</div>
+                            <div class="regNo vehicleBookings"></div>
+                        </div>
+                    </div>
+
+                    <div class="right-align">
+                        <a class="btn waves-light waves-effect modal-action modal-close">Cancel</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <!--Import jQuery before materialize.js-->
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -112,5 +307,10 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
         <script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.min.js"></script>  
         <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript">
+            $('#customerReportModal').modal();
+            $('#outletReportModal').modal();
+            $('#vehicleReportModal').modal();
+        </script>
     </body>
 </html>
