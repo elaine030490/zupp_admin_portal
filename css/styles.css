@@ -532,9 +532,25 @@ select{
 }
 .vehicleDetailsForm{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-areas:
-        "imageDiv vehicleDetailsDiv vehicleDetailsMoreDiv";
+        "imageDiv ."
+        "vehicleDetailsDiv vehicleDetailsMoreDiv"
+        "vehicleReports .";
+}
+.vehicleDetailsDiv{
+    grid-area: vehicleDetailsDiv;
+}
+.vehicleDetailsMoreDiv{
+    grid-area: vehicleDetailsMoreDiv;
+}
+.vehicleReports{
+    grid-area: vehicleReports;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.imageDiv{
+    grid-area: imageDiv;
 }
 .vehicles{
     margin-left: 20px;
@@ -589,9 +605,6 @@ input[type=text]:focus{
 }
 .modal-close{
     margin-left: 20px;
-}
-.buttonDiv{
-    margin-top: 30%;
 }
 .addVehicleBtn{
     margin-bottom: 20px;
@@ -786,7 +799,7 @@ input[type=text]:focus{
     margin-bottom: 5px !important;
 }
 .custReportCard{
-    width: 30%;
+    width: 100%;
     margin-left: 10px !important;
 }
 #customerReportModal, #outletReportModal, #vehicleReportModal{
@@ -795,6 +808,7 @@ input[type=text]:focus{
 }
 .cardsDiv{
     margin-top: 20px;
+    width: 100%;
 }
 .collapsible-header{
     font-size: 20px;
@@ -812,10 +826,30 @@ input[type=text]:focus{
     margin-top: 20px;
     margin-bottom: 20px;
 }
-.compRidePrev, .compRideNext{
+.compRidePrev, .compRideNext, .reportPrev, .reportNext{
     background-color: #FECD2F !important;
     color: #333 !important;
 }
 .activePage, .completedPage{
     display: none;
+}
+.revenueDiv{
+    display: flex;
+}
+.revenueField{
+    margin-right: 20px;
+}
+.reportValues{
+    padding-top: 20px;
+}
+.reportDetails{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 50%;
+}
+.reportDetails .cardsDiv{
+    margin-top: 10px;
+}
+.collapsible-body{
+    padding: 3rem !important;
 }

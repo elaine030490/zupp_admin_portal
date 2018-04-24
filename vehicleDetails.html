@@ -46,7 +46,7 @@
                     <form>
                         <div class="vehicleDetailsForm" id="createForm">
                             <div class="imageDiv">
-                                <div>Vehicle Details</div>
+                                <div class="createLabel">Vehicle Details</div>
                                 <div id="image"></div>
                             </div>
 
@@ -128,11 +128,38 @@
                                     <p class="vehicleTitle">Permit Expiry Date</p>
                                     <div id="permitExpiryDate"></div>
                                 </div>
-                                
-                                <!-- <div>
-                                    <img class="saveImg" src="img/Zupp web_Save and print.png"/>
-                                    <button class="btn saveBtn saveVehicleBtn">Save</button>
-                                </div> -->
+                            </div>
+
+                            <div class="vehicleReports">
+                                <div class="createLabel">Report</div>
+
+                                <div class="searchFilterDiv">
+                                    <div class="regNoLabel filterDateDiv">Filter by Date</div>
+                                    <div class="filterDiv">
+                                        <div class="input-group input-daterange">
+                                            <input type="text" id="vehicleStartDate" class="form-control">
+                                            <div class="toDiv">to</div>
+                                            <input type="text" id="vehicleEndDate" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <button class="btn filterVehicleReportBtn">Get Report</button>
+                                        <button class="btn resetVehicleReportBtn">Reset</button>
+                                    </div>
+                                </div>
+
+                                <div class="cardsDiv">
+                                    <div class="card-panel custReportCard">
+                                        <div class="reportLabel">Revenue Generated</div>
+                                        <div id="vehicleBookings" class="regNo reportValues"></div>
+                                    </div>
+
+                                    <div class="card-panel custReportCard">
+                                        <div class="reportLabel">Total Bookings</div>
+                                        <div id="vehicleRevenue" class="regNo reportValues"></div>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>

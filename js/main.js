@@ -7,6 +7,7 @@ var user = '';
 var svcPage = 1;
 var activeRidesPage = 1;
 var completedRidesPage = 1;
+var custPage = 1;
 
 //set datepicker range
 if($('.input-daterange input').length !== 0){
@@ -356,7 +357,7 @@ if(currentPath == 'vehicles'){
 	    				var delBtn = '<a id='+val.id+' class="btn btn-flat deleteBtn">Delete</a>';
 	    				var changeStatus = '<a id='+val.id+' class="btn waves-effect changeStatusBtn">Change Status</a>';
 
-		        		$('.dashboardMainContent').append('<div class="garageCard"><img src='+val.image+' alt="Bike"><div class="cardText"><div class="gridRow1"><div class="brandName">'+val.brand+' '+val.model+'</div><div class="regNo">'+val.registrationNumber+'</div></div><div class="gridRow2"><label class="cardLabel">Insurance Valid Till</label><div class="insuranceDate">'+formatNewDate(val.insuranceExpiry)+'</div></div><div class="gridRow4"><label class="cardLabel">Last Serviced On</label><div class="serviceDate">'+formatNewDate(val.lastServiceDate)+'</div></div><div class="gridRow5"><label class="cardLabel">Vendor</label><div class="currentStatus">'+val.vendorId.name+'</div></div><div class="gridRow5"><label class="cardLabel">Status</label><div class="currentStatus">'+val.status+'</div></div></div><div>'+changeStatus+''+addVendorBtn+'</div><div class="cardBtns">'+editBtn+''+delBtn+'</div></div>');
+		        		$('.dashboardMainContent').append('<div class="garageCard"><a class="vehicleSelect" id='+val.id+'><img src='+val.image+' alt="Bike" /></a><div class="cardText"><div class="gridRow1"><div id='+val.id+' class="brandName vehicleSelect">'+val.brand+' '+val.model+'</div><div id='+val.id+' class="regNo vehicleSelect">'+val.registrationNumber+'</div></div><div class="gridRow2"><label class="cardLabel">Insurance Valid Till</label><div class="insuranceDate">'+formatNewDate(val.insuranceExpiry)+'</div></div><div class="gridRow4"><label class="cardLabel">Last Serviced On</label><div class="serviceDate">'+formatNewDate(val.lastServiceDate)+'</div></div><div class="gridRow5"><label class="cardLabel">Vendor</label><div class="currentStatus">'+val.vendorId.name+'</div></div><div class="gridRow5"><label class="cardLabel">Status</label><div class="currentStatus">'+val.status+'</div></div></div><div>'+changeStatus+''+addVendorBtn+'</div><div class="cardBtns">'+editBtn+''+delBtn+'</div></div>');
 	    			});
 	    		}
 	    	}
@@ -368,8 +369,9 @@ if(currentPath == 'vehicles'){
 }
 
 //on vehicle reg no click
-$('.tableBody').on('click', '.vehicleSelect', function(){
+$('.dashboardMainContent').on('click', '.vehicleSelect', function(){
 	var vehicleId = $(this).attr('id');
+	console.log('vehicle', vehicleId);
 	localStorage.setItem('vehicleId', vehicleId);
 	location.href = 'vehicleDetails';
 });
@@ -480,6 +482,7 @@ $('.saveStatusBtn').click(function(){
 	});
 });
 
+//on edit vehicle or vehicle details page
 if(currentPath == 'editVehicle' || currentPath == 'vehicleDetails'){
 	//get details of selected vehicle
 	var vehicleId = localStorage.getItem('vehicleId');
@@ -515,6 +518,9 @@ if(currentPath == 'editVehicle' || currentPath == 'vehicleDetails'){
 						$('#trackingNumber').append('<h5 class="vehicleValue">'+result.data.trackingDeviceIMEI+'</h5>');
 						$('#permitNumber').append('<h5 class="vehicleValue">'+result.data.permitNumber+'</h5>');
 						$('#permitExpiryDate').append('<h5 class="vehicleValue">'+formatNewDate(result.data.permitExpiry)+'</h5>');
+
+						$('#vehicleRevenue').append('<h5 class="vehicleValue">'+(Math.round(result.data.revenueGenerated * 100)/100)+'</h5>');
+						$('#vehicleBookings').append('<h5 class="vehicleValue">'+result.data.totalBookings+'</h5>');
 			    	}
 		    	}
 		    	else if(currentPath == 'editVehicle'){
@@ -542,6 +548,42 @@ if(currentPath == 'editVehicle' || currentPath == 'vehicleDetails'){
 		});
 	}
 }
+
+//get filtered individual vehicle reports
+$('.filterVehicleReportBtn').click(function(e){
+	e.preventDefault();
+
+	var startDate = formatDate($('#vehicleStartDate').val());
+	var endDate = formatDate($('#vehicleEndDate').val());
+	var vehicle = localStorage.getItem('vehicleId');
+
+	$.ajax({
+		url: baseUrl + 'vehicle/'+vehicle+'?start='+startDate+'&end='+endDate,
+		type: "GET",
+	    contentType: "application/json",
+	    crossDomain: true,
+	    beforeSend: function (xhr) {
+	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
+	    },
+	    success: function(result){
+	    	if(result.status == 'success'){
+	    		if(result.data.length == 0){
+	    			Materialize.toast('No report found!', 4000);
+	    		}
+	    		else{
+	    			$('#vehicleRevenue').empty();
+	    			$('#vehicleBookings').empty();
+
+	    			$('#vehicleRevenue').append('<h5 class="vehicleValue">'+(Math.round(result.data.revenueGenerated * 100)/100)+'</h5>');
+					$('#vehicleBookings').append('<h5 class="vehicleValue">'+result.data.totalBookings+'</h5>');
+	    		}
+	    	}
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	    	console.log('error');
+	    }
+	});
+});
 
 //asign vendor to vehicle save
 $('.assignVendorBtn').on('click', function(){
@@ -704,9 +746,11 @@ if(currentPath == 'editVendor' || currentPath == 'vendorDetails'){
 						$('#phone').append('<h5 class="vendorValue">'+result.data.phoneNumber+'</h5>');
 						$('#address').append('<h5 class="vendorValue">'+result.data.address+'</h5>');
 						$('#dealer').append('<h5 class="vendorValue">'+result.data.dealershipType+'</h5>');
+						$('#vendorRevenue').append('<h5 class="vendorValue">'+(Math.round(result.data.revenueGenerated * 100)/100)+'</h5>');
+						$('#vendorBookings').append('<h5 class="vendorValue">'+result.data.totalBookings+'</h5>');
 
 						$.each(result.data.contactPersons, function(key, val){
-							$('.contactPersonDiv').append('<div class="input-field"><p class="vehicleTitle">Name</p><div id="contactName"><h5 class="vendorValue">'+val.name+'</h5></div></div><div class="input-field"><p class="vehicleTitle">Phone Number</p><div id="contactPhone"><h5 class="vendorValue">'+val.phoneNumber+'</h5></div></div>')
+							$('.contactPersonDiv').append('<div class="input-field"><p class="vehicleTitle">Name</p><div id="contactName"><h5 class="vendorValue">'+val.name+'</h5></div></div><div class="input-field"><p class="vehicleTitle">Phone Number</p><div id="contactPhone"><h5 class="vendorValue">'+val.phoneNumber+'</h5></div></div>');
 						});
 						//get vehicles of selected vendor
 						$.ajax({
@@ -784,9 +828,32 @@ if(currentPath == 'reports'){
 	    }
 	});
 
+	getCustomerList(custPage);
+
+	$('.reportPrev').click(function(e){
+		e.preventDefault();
+		custPage -= 1;
+		getCustomerList(custPage);
+	});
+
+	$('.reportNext').click(function(e){
+		e.preventDefault();
+		custPage += 1;
+		getCustomerList(custPage);
+	});
+
+}
+
+//function to get customer list
+function getCustomerList(page){
+	if(custPage == 1){
+		$('.reportPrev').attr('disabled', 'disabled');
+	}
+	else
+		$('.reportPrev').attr('disabled', false);
 	//customer reports
 	$.ajax({
-		url: baseUrl + 'customer',
+		url: baseUrl + 'customer?page='+page,
 		type: "GET",
 	    contentType: "application/json",
 	    crossDomain: true,
@@ -805,66 +872,12 @@ if(currentPath == 'reports'){
 	    				var reportBtn = '<a id='+val._id+' class="btn btn-flat custReportBtn deleteBtn">View</a>';
 	    				$('.customerReportBody').append('<tr><td>'+val.token+'</td><td>'+val.name+'</td><td>'+val.email+'</td><td>'+reportBtn+'</td></tr>');
 	    			});
-	    		}
-	    	}
-	    },
-	    error: function (jqXHR, textStatus, errorThrown) {
-	    	console.log('error');
-	    }
-	});
 
-	//outlet reports
-	$.ajax({
-		url: baseUrl + 'vendor',
-		type: "GET",
-	    contentType: "application/json",
-	    crossDomain: true,
-	    beforeSend: function (xhr) {
-	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },
-	    success: function(result){
-	    	if(result.status == 'success'){
-	    		if(result.data.length == 0){
-	    			Materialize.toast('No report found!', 4000);
-	    		}
-	    		else{
-	    			$('.outletReportBody').empty();
-
-	    			$.each(result.data, function(key, val){
-	    				var reportBtn = '<a id='+val.id+' class="btn btn-flat outletReportBtn deleteBtn">View</a>';
-	    				$('.outletReportBody').append('<tr><td>'+val.token+'</td><td>'+val.name+'</td><td>'+val.email+'</td><td>'+reportBtn+'</td></tr>');
-	    			});
-	    		}
-	    	}
-	    },
-	    error: function (jqXHR, textStatus, errorThrown) {
-	    	console.log('error');
-	    }
-	});
-
-	//vehicle reports
-	$.ajax({
-		url: baseUrl + 'vehicles',
-		type: "GET",
-	    contentType: "application/json",
-	    crossDomain: true,
-	    beforeSend: function (xhr) {
-	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },
-	    success: function(result){
-	    	if(result.status == 'success'){
-	    		if(result.data.length == 0){
-	    			Materialize.toast('No report found!', 4000);
-	    		}
-	    		else{
-	    			$('.vehicleReportBody').empty();
-
-	    			$.each(result.data, function(key, val){
-	    				var reportBtn = '<a id='+val.id+' class="btn btn-flat vehicleReportBtn deleteBtn">View</a>';
-	    				$('.vehicleReportBody').append('<tr><td>'+val.registrationNumber+'</td><td>'+val.brand+' '+val.model+'</td><td>'+reportBtn+'</td></tr>');
-
-	    				$('.vehicleSelect').append('<option value='+val.id+'>'+val.brand+' '+val.model+'</option>');
-	    			});
+	    			if(result.data.length < 10){
+	    				$('.reportNext').attr('disabled', 'disabled');
+	    			}
+	    			else
+	    				$('.reportNext').attr('disabled', false);
 	    		}
 	    	}
 	    },
@@ -897,106 +910,6 @@ $('.customerReportBody').on('click', '.custReportBtn', function(){
 					$('#custName').html(result.data.name);	
 					$('.custRevenue')[0].innerHTML = (Math.round(result.data.revenueGenerated * 100)/100);
 					$('.custBookings')[0].innerHTML = result.data.totalBookings;
-	    		}
-	    	}
-	    },
-	    error: function (jqXHR, textStatus, errorThrown) {
-	    	console.log('error');
-	    }
-	});
-});
-
-//get individual outlet report
-$('.outletReportBody').on('click', '.outletReportBtn', function(){
-	var vendorId = $(this).attr('id');
-	
-	$.ajax({
-		url: baseUrl + 'vendor/'+vendorId,
-		type: "GET",
-	    contentType: "application/json",
-	    crossDomain: true,
-	    beforeSend: function (xhr) {
-	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },
-	    success: function(result){
-	    	if(result.status == 'success'){
-	    		if(result.data.length == 0){
-	    			Materialize.toast('No report found!', 4000);
-	    		}
-	    		else{
-	    			$('#outletReportModal').modal('open');
-					$('#vendorToken').html(result.data.token);
-					$('#vendorName').html(result.data.name);	
-					$('.vendorRevenue')[0].innerHTML = (Math.round(result.data.revenueGenerated * 100)/100);
-					$('.vendorBookings')[0].innerHTML = result.data.totalBookings;
-	    		}
-	    	}
-	    },
-	    error: function (jqXHR, textStatus, errorThrown) {
-	    	console.log('error');
-	    }
-	});
-});
-
-//get individual vehicle report
-$('.vehicleReportBody').on('click', '.vehicleReportBtn', function(){
-	var vehicleId = $(this).attr('id');
-	
-	$.ajax({
-		url: baseUrl + 'vehicle/'+vehicleId,
-		type: "GET",
-	    contentType: "application/json",
-	    crossDomain: true,
-	    beforeSend: function (xhr) {
-	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },
-	    success: function(result){
-	    	if(result.status == 'success'){
-	    		if(result.data.length == 0){
-	    			Materialize.toast('No report found!', 4000);
-	    		}
-	    		else{
-	    			$('#vehicleReportModal').modal('open');
-					$('#vehicleReg').html(result.data.registrationNumber);
-					$('#vehicleModel').html(result.data.brand + ' ' + result.data.model);	
-					$('.vehicleRevenue')[0].innerHTML = (Math.round(result.data.revenueGenerated * 100)/100);
-					$('.vehicleBookings')[0].innerHTML = result.data.totalBookings;
-	    		}
-	    	}
-	    },
-	    error: function (jqXHR, textStatus, errorThrown) {
-	    	console.log('error');
-	    }
-	});
-});
-
-//get filtered individual vehicle reports
-$('.filterVehicleReportBtn').click(function(e){
-	e.preventDefault();
-
-	var startDate = formatDate($('#vehicleStartDate').val());
-	var endDate = formatDate($('#vehicleEndDate').val());
-	var vehicle = $('.vehicleSelect').find(":selected").val();
-
-	$.ajax({
-		url: baseUrl + 'vehicle/'+vehicle+'?start='+startDate+'&end='+endDate,
-		type: "GET",
-	    contentType: "application/json",
-	    crossDomain: true,
-	    beforeSend: function (xhr) {
-	      xhr.setRequestHeader("Authorization", "Bearer "+ token);
-	    },
-	    success: function(result){
-	    	if(result.status == 'success'){
-	    		if(result.data.length == 0){
-	    			Materialize.toast('No report found!', 4000);
-	    		}
-	    		else{
-	    			$('#vehicleReportModal').modal('open');
-					$('#vehicleReg').html(result.data.registrationNumber);
-					$('#vehicleModel').html(result.data.brand + ' ' + result.data.model);	
-					$('.vehicleRevenue')[0].innerHTML = (Math.round(result.data.revenueGenerated * 100)/100);
-					$('.vehicleBookings')[0].innerHTML = result.data.totalBookings;
 	    		}
 	    	}
 	    },
